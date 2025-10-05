@@ -1,35 +1,78 @@
-function filterProjects() {
-    const input = document.getElementById('searchInput');
-    const filter = input.value.toLowerCase();
-    const rows = document.querySelector('tbody').querySelectorAll('tr'); // Choose all rows in the table body
-    let hasResults = false;
+// Canvas Background Animation
+const canvas = document.getElementById('bgCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-    rows.forEach(row => {
-        const projectName = row.querySelector('.project-name')?.innerText.toLowerCase();
+const particles = [];
+const particleCount = 100;
 
-        if (projectName && projectName.includes(filter)) {
-            row.style.display = '';
-            hasResults = true;
-        } else if (row.id !== 'table-subheader') {
-            row.style.display = 'none';
-        }
-    });
+class Particle {
+    constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.vx = (Math.random() - 0.5) * 0.5;
+        this.vy = (Math.random() - 0.5) * 0.5;
+        this.size = Math.random() * 2 + 1;
+    }
 
-    const subheader = document.querySelector('.subheader');
-    const noProjectsMessage = document.getElementById('no-projects');
+    update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+    }
 
-    if (hasResults) {
-        subheader.style.display = 'block';
-        noProjectsMessage.style.display = 'none';
-    } else {
-        document.getElementById('table-subheader').style.display = 'none';
-        subheader.style.display = 'none';
-        noProjectsMessage.style.display = 'block';
+    draw() {
+        ctx.fillStyle = `rgba(26, 188, 156, ${Math.random() * 0.5 + 0.2})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
     }
 }
 
+for (let i = 0; i < particleCount; i++) {
+    particles.push(new Particle());
+}
+
+function animate() {
+    ctx.fillStyle = 'rgba(10, 10, 10, 0.1)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(p => {
+        p.update();
+        p.draw();
+    });
+
+    for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 100) {
+                ctx.strokeStyle = `rgba(26, 188, 156, ${0.2 * (1 - dist / 100)})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.stroke();
+            }
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+
 // Update Navbar for Login Status
-const buttons = document.getElementsByClassName('buttons')[0]; // Refers to the section on NavBar where buttons will get appended based on login status
+const buttons = document.getElementsByClassName('buttons')[0];
 
 function updateNavbar() {
     const username = localStorage.getItem('username');
@@ -42,7 +85,7 @@ function updateNavbar() {
             Logout
         </button>
         <a class="button is-primary is-dark" href="https://github.com/dhairyagothi">
-            <strong>GitHub</strong>  
+            <strong>GitHub</strong>
         </a>
         <a class="button is-primary is-dark" href="contributors/contributor.html">
             <strong>Contributors</strong>
@@ -68,7 +111,7 @@ function updateNavbar() {
 
 // Populate the table with project data
 function fillTable() {
-    const data = [
+   const data = [
         ["Day 1", "To-Do List", " /public/TO_DO_LIST/todolist.html"],
         ["Day 2", "Digital Clock", " /public/digital_clock/digitalclock.html"],
         ["Day 3", "Indian Flag", " /public/indianflag/flag.html"],
@@ -184,9 +227,6 @@ function fillTable() {
       ["Day 112","CPU Scheduler","./public/CpuScheduler/index.html"]
     ];
 
-
-
-
     const tbody = document.getElementById('tableBody');
 
     data.forEach(e => {
@@ -198,9 +238,9 @@ function fillTable() {
 
         days.innerText = e[0];
         nameP.innerText = e[1];
-        a.href = e[2];
-        a.innerText = 'Here';
-        a.target = '_blank'; // Open link in a new tab
+        a.href = e[2].trim();       // Remove any leading/trailing spaces here!
+        a.innerHTML = 'View Demo <i class="fas fa-external-link-alt"></i>';
+        a.target = '_blank';
         nameP.classList.add('project-name');
 
         link.appendChild(a);
@@ -212,34 +252,58 @@ function fillTable() {
     });
 }
 
+// Filter Projects
+function filterProjects() {
+    const input = document.getElementById('searchInput');
+    const filter = input.value.toLowerCase();
+    const rows = document.querySelector('tbody').querySelectorAll('tr');
+    let hasResults = false;
+
+    rows.forEach(row => {
+        const projectName = row.querySelector('.project-name')?.innerText.toLowerCase();
+
+        if (projectName && projectName.includes(filter)) {
+            row.style.display = '';
+            hasResults = true;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    const noProjectsMessage = document.getElementById('no-projects');
+    if (hasResults) {
+        noProjectsMessage.style.display = 'none';
+    } else {
+        noProjectsMessage.style.display = 'block';
+    }
+}
+
+// Search on Enter key
+document.getElementById('searchInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        filterProjects();
+    }
+});
+
+// Scroll to Top Button
+const scrollBtn = document.getElementById('scrollBtn');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+        scrollBtn.classList.add('show');
+    } else {
+        scrollBtn.classList.remove('show');
+    }
+});
+
+scrollBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+// Initialize on DOM Load
 document.addEventListener('DOMContentLoaded', () => {
     updateNavbar();
     fillTable();
-});
-
-const themeToggle = document.getElementById('theme-toggle');
-const body = document.body;
-
-// Check if the user has a saved theme preference
-if (localStorage.getItem('theme') === 'dark') {
-  body.classList.add('dark-theme');
-  themeToggle.textContent = '☀️';
-} else {
-  body.classList.add('light-theme');  // Explicitly set light theme
-  themeToggle.textContent = '🌙';
-}
-
-// Toggle theme on button click
-themeToggle.addEventListener('click', () => {
-  if (body.classList.contains('dark-theme')) {
-    body.classList.remove('dark-theme');
-    body.classList.add('light-theme');
-    themeToggle.textContent = '🌙';
-    localStorage.setItem('theme', 'light');
-  } else {
-    body.classList.remove('light-theme');
-    body.classList.add('dark-theme');
-    themeToggle.textContent = '☀️';
-    localStorage.setItem('theme', 'dark');
-  }
 });

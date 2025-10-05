@@ -1,345 +1,485 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>100 Days 100 Web Projects</title>
-    <link rel="stylesheet" href="home.css" />
-    <link rel="icon" href="public/favv.png" type="image/x-icon" />
-    <meta content="100 Days, 100 Web Projects" property="og:title" />
-    <meta
-      content="A collection of 100 web projects from basic to intermediate using html css and js."
-      property="og:description"
-    />
-    <meta name="google-adsense-account" content="ca-pub-5463557076259531">
-    <meta content="/" property="og:url" />
-    <meta content="https://i.imgur.com/3cztaa9.png" property="og:image" />
-    <meta content="#c2a3d6" data-react-helmet="true" name="theme-color" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5463557076259531"
-     crossorigin="anonymous"></script>
-<!-- new ad -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-5463557076259531"
-     data-ad-slot="4361044035"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-    <!-- Pushed CSS Code Here and Imported Bulma StyleSheet as well -->
-    <link rel="stylesheet" href="index.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-      integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-    />
-    <script
-      src="https://kit.fontawesome.com/a076d05399.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <style type="text/css">
-     nav.navbar {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
-        background-color: #1abc9c;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
 
-      #scrollBtn {
-        position: fixed;
-        bottom: 20px; /* Place closer to the bottom */
-        right: 20px; /* Place closer to the right */
-        display: none; /* Initially hidden */
-        background-color: #1abc9c;
-        color: rgb(247, 242, 242);
-        border: none;
-        border-radius: 50%;
-        padding: 15px;
-        font-size: 18px;
-        cursor: pointer;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 1000; /* Ensure visibility above other elements */
-        transition: background-color 0.3s ease, transform 0.3s ease;
-      }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap');
 
-      #scrollBtn:hover {
-        background-color: #000; /* Change color on hover */
-        transform: scale(1.2); /* Slightly enlarge */
-      }
-      .contributors-btn {
-        background: linear-gradient(45deg, #10866f, );
-        color: white;
-        padding: 10px 20px; /* Adjust padding to make the button rectangular */
-        font-size: 0.8rem; /* Font size */
-        font-weight: bold;
-        text-decoration: none;
-        border: none;
-        border-radius: 5px; /* Optional: Rounded corners */
-        position: absolute;
-        top: 60px; /* Shifted slightly upwards */
-        right: 6px;
-        transition: background 0.3s ease, transform 0.2s ease,
-          box-shadow 0.3s ease;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        cursor: pointer;
-        text-align: center;
-        display: inline-block;
-        z-index: 10; /* Ensures the button stays on top */
-        font-family: "Circular Std", "Arial", sans-serif; /* Circular font */
-      }
-
-      .contributors-btn:hover {
-        background: linear-gradient(45deg, #16a085, #1abc9c);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-      }
-
-      .contributors-btn:active {
-        transform: translateY(0);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      }
-
-      #title-heading {
-        margin-top: 3rem;
-        margin-bottom: 3rem;
-        color: white;
-      }
-
-      @media (max-width: 426px) {
-        #title-heading {
-          margin-top: 5rem;
-          margin-bottom: 3rem;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-      }
-    
-  </style>
 
-  <body>
-    
-    <!-- Navbar -->
-    <nav
-      class="navbar is-primary"
-      role="navigation"
-      aria-label="main navigation"
-    >
-      <div class="navbar-brand">
-        <a class="navbar-item has-text-weight-bold" href="index.html">
-          <img src="https://i.pinimg.com/736x/1c/54/f7/1c54f7b06d7723c21afc5035bf88a5ef.jpg"/>
-          100 DAYS 100 WEB PROJECTS
-        </a>
-       
-        <a
-          role="button"
-          class="navbar-burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background: #0a0a0a;
+            color: #fff;
+            position: relative;
+        }
 
-      <div class="navbar-menu is-active" id="navbar-menu">
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="buttons">
-              
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(26, 188, 156, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: slideDown 0.8s ease-out;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .navbar-brand img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(26, 188, 156, 0.6);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(26, 188, 156, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(26, 188, 156, 1);
+            }
+        }
+
+        .navbar-brand span {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #1abc9c, #3498db, #9b59b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .buttons .button {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .buttons .button:hover {
+            background: #1abc9c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(26, 188, 156, 0.4);
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 150px 20px 80px;
+            position: relative;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #1abc9c, #3498db, #9b59b6, #e74c3c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease-out 0.3s backwards;
+        }
+
+        .search-container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto 4rem;
+            animation: fadeInUp 1s ease-out 0.6s backwards;
+        }
+
+        .search-wrapper {
+            display: flex;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            padding: 1rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .search-wrapper:focus-within {
+            box-shadow: 0 0 40px rgba(26, 188, 156, 0.6);
+            border-color: #1abc9c;
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.1rem;
+            padding: 0 1rem;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+            border: none;
+            color: #fff;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(26, 188, 156, 0.5);
+        }
+
+        .projects-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        thead th {
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+            color: #fff;
+            padding: 1.5rem;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: none;
+        }
+
+        tbody tr {
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: rgba(26, 188, 156, 0.1);
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(26, 188, 156, 0.3);
+        }
+
+        tbody td {
+            padding: 1.5rem;
+            border: none;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        tbody td:first-child {
+            font-weight: 700;
+            color: #1abc9c;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        tbody td a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        tbody td a:hover {
+            color: #1abc9c;
+            text-shadow: 0 0 10px rgba(26, 188, 156, 0.8);
+        }
+
+        tbody td a i {
+            margin-left: 0.3rem;
+        }
+
+        #scrollBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(26, 188, 156, 0.4);
+            display: none;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        #scrollBtn.show {
+            display: block;
+        }
+
+        #scrollBtn:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 40px rgba(26, 188, 156, 0.6);
+        }
+
+        .footer {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: #1abc9c;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .footer p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1abc9c;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-btn:hover {
+            background: #1abc9c;
+            color: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(26, 188, 156, 0.5);
+        }
+
+        #no-projects {
+            display: none;
+            text-align: center;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .navbar-brand span {
+                font-size: 1rem;
+            }
+
+            tbody tr:hover {
+                transform: translateX(5px);
+            }
+
+            .table-container {
+                padding: 1rem;
+            }
+
+            thead th, tbody td {
+                padding: 1rem 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            .navbar {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="bgCanvas"></canvas>
+
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <img src="https://i.pinimg.com/736x/1c/54/f7/1c54f7b06d7723c21afc5035bf88a5ef.jpg" alt="Logo">
+            <span>100 DAYS 100 WEB PROJECTS</span>
+        </div>
+        <div class="buttons"></div>
+    </nav>
+
+    <section class="hero-section">
+        <h1 class="hero-title">100 Days 100 Web Projects</h1>
+        <p class="hero-subtitle">A Journey Through Web Development Excellence</p>
+        
+        <div class="search-container">
+            <div class="search-wrapper">
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    id="searchInput" 
+                    placeholder="Search for amazing projects..."
+                >
+                <button class="search-btn" onclick="filterProjects()">
+                    <i class="fas fa-search"></i> Search
+                </button>
             </div>
-          </div>
         </div>
-      </div>
-    </nav><br><br>
+    </section>
 
-    
-
-    
-    <!-- Main Page Starts Here -->
-    <div class="content" id="projects">
-      <div class="title is-2 has-text-centered" id="title-heading">
-        100 Days 100 Web Projects
-      </div>
-      <p class="subtitle has-text-centered" style="color: black">
-        here are live demos of all the projects
-      </p>
-
-      <div id="search-bar">
-        <div class="control">
-          <input
-            class="input"
-            type="text"
-            id="searchInput"
-            placeholder="Search for projects..."
-            onkeyup="filterProjects()"
-          />
+    <section class="projects-section">
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Project Name</th>
+                        <th>Demo Link</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
         </div>
-        <div class="control">
-          <button
-            id="searchButton"
-            class="mx-4 button is-primary"
-            onclick="filterProjects()"
-          >
-            Go
-          </button>
-        </div>
-      </div>
-
-      <div class="links">
-        <table class="table is-fullwidth is-bordered is-striped is-hoverable">
-          <thead>
-            <tr>
-              <th>Day</th>
-              <th>Project Name</th>
-              <th>Demo Link</th>
-            </tr>
-          </thead>
-          <tbody id="tableBody">
-            
-          </tbody>
-
-        </table>
-      </div>
-
-      <div id="no-projects" style="display: none">No Projects Found</div>
-    </div>
+        <div id="no-projects">No Projects Found</div>
+    </section>
 
     <footer class="footer">
-      <div class="content">
-        <div class="columns is-vcentered">
-          <!-- Left Side -->
-          <div class="column has-text-left">
-            <div class="heading">
-              <h2 class="is-size-4">About</h2>
-              <p>
-                This repository contains 100 web projects from basic to
-                intermediate using HTML, CSS, and JS.
-              </p>
-              <p>
-                <strong>
-                  ©
-                  <script>
-                    document.write(new Date().getFullYear());
-                  </script>
-                  100 Days, 100 Projects
-                </strong>
-                by <a href="#">Dhairya</a> and <a href="#">Contributors</a>.
-              </p>
+        <div class="footer-content">
+            <div>
+                <h3>About</h3>
+                <p>This repository contains 112 web projects from basic to intermediate using HTML, CSS, and JS.</p>
+                <p><strong>&copy; 2024 100 Days, 100 Projects</strong> by Dhairya and Contributors.</p>
             </div>
-          </div>
-
-          <!-- Right Side -->
-          <div class="column ms-4">
-            <div class="heading">
-              <h2 class="is-size-4">Important Links</h2>
-              <!-- Social Media Icons -->
-              <div class="buttons">
-                <a
-                  class="button is-dark is-rounded"
-                  href="https://www.instagram.com/dhairyaa__31/"
-                  target="_blank"
-                  aria-label="Instagram"
-                >
-                  <span class="icon">
-                    <i class="fab fa-instagram"></i>
-                  </span>
-                </a>
-                <a
-                  class="button is-dark is-rounded"
-                  href="https://github.com/dhairyagothi/100_days_100_web_project"
-                  target="_blank"
-                  aria-label="GitHub"
-                >
-                  <span class="icon">
-                    <i class="fab fa-github"></i>
-                  </span>
-                </a>
-                <a
-                  class="button is-dark is-rounded"
-                  href="https://www.linkedin.com/in/dhairya-gothi-65945b288/"
-                  target="_blank"
-                  aria-label="LinkedIn"
-                >
-                  <span class="icon">
-                    <i class="fab fa-linkedin"></i>
-                  </span>
-                </a>
-              </div>
-              <!-- Navigation Links -->
-              <div class="buttons ms-5">
-                <a class="button is-primary is-rounded" href="#">
-                  <span class="icon">
-                    <i class="fas fa-home"></i>
-                  </span>
-                  <span>Home</span>
-                </a>
-                <a
-                  class="button is-link is-rounded"
-                  href="contributors/contributor.html"
-                >
-                  <span class="icon">
-                    <i class="fas fa-users"></i>
-                  </span>
-                  <span>Contributors</span>
-                </a>
-              </div>
+            <div>
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/dhairyaa__31/" target="_blank" class="social-btn">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://github.com/dhairyagothi/100_days_100_web_project" target="_blank" class="social-btn">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/dhairya-gothi-65945b288/" target="_blank" class="social-btn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </footer>
 
-    <!-- Top scroll button -->
-    <button id="scrollBtn" title="Go to top">
-      <i class="fa-solid fa-arrow-up fa-lg"></i>
+    <button id="scrollBtn">
+        <i class="fas fa-arrow-up"></i>
     </button>
+        <script src="index.js"></script>
 
-    <!-- Pushed JavaScript Code To Here -->
-    <script src="index.js"></script>
-    <script src="bulma.js"></script>
-
-    <script>
-      // Get the button element
-      const scrollBtn = document.getElementById("scrollBtn");
-
-      // Show the button when the user scrolls down 100px from the top
-      window.onscroll = function () {
-        if (
-          document.body.scrollTop > 100 ||
-          document.documentElement.scrollTop > 100
-        ) {
-          scrollBtn.style.display = "block";
-        } else {
-          scrollBtn.style.display = "none";
-        }
-      };
-
-      // Scroll to the top of the page when the button is clicked
-      scrollBtn.onclick = function () {
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      };
-    </script>
-  </body>
+</body>
 </html>
-
-
-
