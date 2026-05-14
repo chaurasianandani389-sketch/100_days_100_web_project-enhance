@@ -105,7 +105,8 @@ font-weight: 700;
 margin-bottom: 20px;
 }
 
-.content div{
+.content div,
+.content p{
 font-size: 1.1rem;
 }
 
