@@ -17,7 +17,7 @@ const PROJECT_DATA = [
     ['Day 8', 'Parallel-X Website', './public/Parallel-x%20website/parallal.html'],
     ['Day 9', 'Captcha Generator', './public/captcha/captcha.html'],
     ['Day 10', 'QR Code Generator', './public/qr%20generator/qr.html'],
-    /['Day 11', 'add project', './public/index.html'],
+    ['Day 11', 'add project', './public/index.html'],
     ['Day 12', 'Nodemailer Contact Form', './public/gmail_nodemailer/public/mail.html'],
     ['Day 13', 'Login Form Using MERN', 'github.com'],
     ['Day 14', 'File Uploader', 'github.com'],
