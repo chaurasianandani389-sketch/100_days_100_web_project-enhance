@@ -213,6 +213,7 @@ function renderGrid() {
     if (!grid) return;
 
     const filtered = PROJECTS.filter(([day, name, , , cat]) => {
+        const resultCountEl = document.getElementById('resultCount');
         const matchesFilter = activeFilter === 'all' || cat === activeFilter;
         const q = searchQuery.toLowerCase();
         const matchesSearch = !q || name.toLowerCase().includes(q) || day.toLowerCase().includes(q);
@@ -224,13 +225,26 @@ function renderGrid() {
     if (filtered.length === 0) {
         grid.style.display = 'none';
         noResults.style.display = 'block';
+          if (resultCountEl) resultCountEl.textContent = "0 results found";
         return;
     }
 
     grid.style.display = 'grid';
     noResults.style.display = 'none';
 
+    if (resultCountEl && searchQuery) {
+    resultCountEl.textContent = `${filtered.length} result(s) found`;
+} else if (resultCountEl) {
+    resultCountEl.textContent = '';
+}
+
     filtered.forEach(([day, name, url, tags, cat]) => {
+        let displayName = name;
+
+if (searchQuery) {
+    const regex = new RegExp(`(${searchQuery})`, "gi");
+    displayName = name.replace(regex, `<span class="highlight">$1</span>`);
+}
         const card = document.createElement('div');
         card.className = 'project-card';
 
@@ -242,7 +256,7 @@ function renderGrid() {
                 <span class="card-day">${day}</span>
                 <span class="card-category">${CATEGORY_LABEL[cat] || cat}</span>
             </div>
-            <div class="card-name">${name}</div>
+           <div class="card-name">${displayName}</div>
             <div class="card-tags">${tagsHTML}</div>
             <div class="card-footer">
                 <a href="${url.trim()}" target="_blank" class="card-link" rel="noopener noreferrer">
@@ -275,11 +289,28 @@ function initFilterChips() {
    ============================================================ */
 function initSearch() {
     const input = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearBtn');
+
     if (!input) return;
+
     input.addEventListener('input', () => {
         searchQuery = input.value.trim();
+
+        if (clearBtn) {
+            clearBtn.style.display = searchQuery ? 'block' : 'none';
+        }
+
         renderGrid();
     });
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            input.value = '';
+            searchQuery = '';
+            clearBtn.style.display = 'none';
+            renderGrid();
+        });
+    }
 }
 
 function syncProjectCounts() {

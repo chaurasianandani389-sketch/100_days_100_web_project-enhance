@@ -1089,4 +1089,34 @@ html {
     font-size: 11px;
   }
 }
+/* ============================================================
+   SEARCH ENHANCEMENTS 
+   ============================================================ */
 
+.clear-btn {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: none;
+  font-size: 18px;
+  color: var(--text-muted);
+}
+
+.clear-btn:hover {
+  color: var(--text-primary);
+}
+
+.result-count {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.highlight {
+  background: #00ffe1;
+  color: black;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
