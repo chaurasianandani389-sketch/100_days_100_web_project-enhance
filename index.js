@@ -289,28 +289,29 @@ function initFilterChips() {
    ============================================================ */
 function initSearch() {
     const input = document.getElementById('searchInput');
-    const clearBtn = document.getElementById('clearBtn');
+    const clearBtn = document.getElementById('clearSearch');
 
     if (!input) return;
 
     input.addEventListener('input', () => {
         searchQuery = input.value.trim();
-
-        if (clearBtn) {
-            clearBtn.style.display = searchQuery ? 'block' : 'none';
-        }
-
         renderGrid();
+
+        // Show/hide clear button
+        if (input.value.length > 0) {
+            clearBtn.style.display = 'block';
+        } else {
+            clearBtn.style.display = 'none';
+        }
     });
 
-    if (clearBtn) {
-        clearBtn.addEventListener('click', () => {
-            input.value = '';
-            searchQuery = '';
-            clearBtn.style.display = 'none';
-            renderGrid();
-        });
-    }
+    // Clear search on click
+    clearBtn.addEventListener('click', () => {
+        input.value = '';
+        searchQuery = '';
+        clearBtn.style.display = 'none';
+        renderGrid();
+    });
 }
 
 function syncProjectCounts() {

@@ -1102,10 +1102,11 @@ html {
   display: none;
   font-size: 18px;
   color: var(--text-muted);
+  transition:0.2s;
 }
 
 .clear-btn:hover {
-  color: var(--text-primary);
+  color: var(--accent);
 }
 
 .result-count {
