@@ -291,21 +291,13 @@ function initSearch() {
     const input = document.getElementById('searchInput');
     const clearBtn = document.getElementById('clearSearch');
 
-    if (!input) return;
-
     input.addEventListener('input', () => {
         searchQuery = input.value.trim();
         renderGrid();
 
-        // Show/hide clear button
-        if (input.value.length > 0) {
-            clearBtn.style.display = 'block';
-        } else {
-            clearBtn.style.display = 'none';
-        }
+        clearBtn.style.display = input.value ? 'block' : 'none';
     });
 
-    // Clear search on click
     clearBtn.addEventListener('click', () => {
         input.value = '';
         searchQuery = '';
@@ -313,6 +305,7 @@ function initSearch() {
         renderGrid();
     });
 }
+   
 
 function syncProjectCounts() {
     const total = PROJECTS.length.toLocaleString();
