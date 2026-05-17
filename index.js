@@ -291,11 +291,20 @@ function initSearch() {
     const input = document.getElementById('searchInput');
     const clearBtn = document.getElementById('clearSearch');
 
+    if (!input || !clearBtn) {
+        console.log("Search elements not found");
+        return;
+    }
+
     input.addEventListener('input', () => {
         searchQuery = input.value.trim();
         renderGrid();
 
-        clearBtn.style.display = input.value ? 'block' : 'none';
+        if (input.value.length > 0) {
+            clearBtn.style.display = 'block';
+        } else {
+            clearBtn.style.display = 'none';
+        }
     });
 
     clearBtn.addEventListener('click', () => {

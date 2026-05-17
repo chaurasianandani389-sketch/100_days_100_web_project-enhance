@@ -1095,13 +1095,15 @@ html {
 
 .clear-btn {
   position: absolute;
-  right: 12px;
+  right: 10px;
   top: 50%;
+  background: none;
+  border:none;
   transform: translateY(-50%);
   cursor: pointer;
   display: none;
   font-size: 18px;
-  color: var(--text-muted);
+  color: white;
   transition:0.2s;
 }
 
