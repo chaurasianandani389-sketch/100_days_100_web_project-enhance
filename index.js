@@ -283,35 +283,122 @@ function initFilterChips() {
         });
     });
 }
-
+function highlightMatch(text, query) {
+    const regex = new RegExp(`(${query})`, 'gi');
+    return text.replace(regex, `<span class="highlight">$1</span>`);
+}
 /* ============================================================
    LIVE SEARCH
    ============================================================ */
+function highlightMatch(text, query) {
+    const regex = new RegExp(`(${query})`, 'gi');
+    return text.replace(regex, `<span class="highlight">$1</span>`);
+}
+
 function initSearch() {
     const input = document.getElementById('searchInput');
+    const box = document.getElementById('suggestionsBox');
     const clearBtn = document.getElementById('clearSearch');
 
-    if (!input || !clearBtn) {
-        console.log("Search elements not found");
-        return;
-    }
+    if (!input || !box || !clearBtn) return;
+
+    let activeIndex = -1;
 
     input.addEventListener('input', () => {
-        searchQuery = input.value.trim();
+        const query = input.value.toLowerCase().trim();
+        searchQuery = query;
         renderGrid();
 
-        if (input.value.length > 0) {
-            clearBtn.style.display = 'block';
-        } else {
-            clearBtn.style.display = 'none';
+        // ✅ Show/hide ❌ button
+        clearBtn.style.display = query ? 'block' : 'none';
+
+        // Reset suggestions
+        box.innerHTML = '';
+        activeIndex = -1;
+
+        if (!query) {
+            box.style.display = 'none';
+            return;
+        }
+
+        // Filter matching projects
+        const matches = PROJECTS.filter(([day, name]) =>
+            name.toLowerCase().includes(query)
+        ).slice(0, 5);
+
+        if (!matches.length) {
+            box.innerHTML = `<div class="suggestion-item">No results found</div>`;
+            box.style.display = 'block';
+            return;
+        }
+
+        // Create suggestion items
+        matches.forEach(([day, name]) => {
+            const item = document.createElement('div');
+            item.className = 'suggestion-item';
+
+            item.innerHTML = `
+                ${highlightMatch(name, query)}
+                <span style="opacity:0.5; font-size:0.75rem; margin-left:6px;">
+                    (${day})
+                </span>
+            `;
+
+            // Click suggestion
+            item.addEventListener('click', () => {
+                input.value = name;
+                searchQuery = name.toLowerCase();
+                box.style.display = 'none';
+                clearBtn.style.display = 'block';
+                renderGrid();
+            });
+
+            box.appendChild(item);
+        });
+
+        box.style.display = 'block';
+    });
+
+    // ⌨️ Keyboard navigation
+    input.addEventListener('keydown', (e) => {
+        const items = box.querySelectorAll('.suggestion-item');
+        if (!items.length) return;
+
+        if (e.key === 'ArrowDown') {
+            activeIndex++;
+            if (activeIndex >= items.length) activeIndex = 0;
+        } 
+        else if (e.key === 'ArrowUp') {
+            activeIndex--;
+            if (activeIndex < 0) activeIndex = items.length - 1;
+        } 
+        else if (e.key === 'Enter') {
+            if (activeIndex >= 0) {
+                items[activeIndex].click();
+                e.preventDefault();
+            }
+        }
+
+        items.forEach(item => item.classList.remove('active'));
+        if (activeIndex >= 0) {
+            items[activeIndex].classList.add('active');
         }
     });
 
+    // ❌ Clear button
     clearBtn.addEventListener('click', () => {
         input.value = '';
         searchQuery = '';
+        box.style.display = 'none';
         clearBtn.style.display = 'none';
         renderGrid();
+    });
+
+    // Click outside → close dropdown
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-bar')) {
+            box.style.display = 'none';
+        }
     });
 }
    

@@ -1093,9 +1093,9 @@ html {
    SEARCH ENHANCEMENTS 
    ============================================================ */
 
-.clear-btn {
+.clear-search {
   position: absolute;
-  right: 10px;
+  right: 12px;
   top: 50%;
   background: none;
   border:none;
@@ -1103,11 +1103,11 @@ html {
   cursor: pointer;
   display: none;
   font-size: 18px;
-  color: white;
+  color:var(--text-muted);
   transition:0.2s;
 }
 
-.clear-btn:hover {
+.clear-search:hover {
   color: var(--accent);
 }
 
@@ -1122,4 +1122,31 @@ html {
   color: black;
   padding: 2px 4px;
   border-radius: 4px;
+}
+.suggestions-box {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    width: 100%;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    max-height: 220px;
+    overflow-y: auto;
+    display: none;
+    z-index: 20;
+}
+
+.suggestion-item {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.suggestion-item:hover,
+.suggestion-item.active {
+    background: var(--accent-dim);
+    color: var(--accent);
 }
