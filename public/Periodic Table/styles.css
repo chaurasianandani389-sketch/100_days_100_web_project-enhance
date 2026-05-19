@@ -61,7 +61,6 @@ body {
     transform: translateY(-10px) scale(1.1);
     box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
     z-index: 100;
-    animation: elementPulse 1.5s infinite;
 }
 
 .element:active {
