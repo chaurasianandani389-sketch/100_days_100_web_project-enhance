@@ -37,24 +37,22 @@ const getWeather = (city) => {
 
 }
 
+//  Search button click
 submit.addEventListener("click", (e) => {
-    e.preventDefault();
-    getWeather(city.value);
-});
+    e.preventDefault()
+    getWeather(city.value)
+})
 
-window.onscroll = function () {
-    if (document.documentElement.scrollTop > 200) {
-        topBtn.style.display = "block";
-    } else {
-        topBtn.style.display = "none";
+// ⌨ Enter key triggers search
+city.addEventListener("keydown", (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault()
+        getWeather(city.value)
     }
-};
+})
 
-topBtn.addEventListener("click", () => {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-});
-
-getWeather("Mumbai");
+//  On page load: fetch Delhi for cards + all table cities
+window.addEventListener('DOMContentLoaded', () => {
+    getWeather('Delhi');
+    loadTableCities();
+})
