@@ -71,7 +71,8 @@ jobs:
                   return state;
                 }
 
-                await new Promise((resolve) => setTimeout(resolve, 2000));
+                const delayMs = 1000 * 2 ** (attempt - 1);
+                await new Promise((resolve) => setTimeout(resolve, delayMs));
               }
 
               core.info(`Skipped PR #${pullNumber} because mergeability is still being calculated.`);
