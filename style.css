@@ -523,7 +523,17 @@ body.light-mode .navbar {
 }
 
 .hero-sub {
-  font-size: 1.02rem;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  line-height: 1.65;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.6s var(--ease) 0.3s forwards;
+}
+
+.hero-extra {
+  font-size: 1.2rem;
   color: var(--text-secondary);
   font-weight: 400;
   line-height: 1.65;
@@ -860,6 +870,24 @@ body.light-mode .navbar {
   padding: 0.18rem 0.45rem;
   border-radius: 999px;
   border: 1px solid rgba(59, 130, 246, 0.16);
+}
+
+.card-category.beginner {
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.28);
+}
+
+.card-category.intermediate {
+  color: #facc15;
+  background: rgba(250, 204, 21, 0.12);
+  border: 1px solid rgba(250, 204, 21, 0.28);
+}
+
+.card-category.advanced {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.28);
 }
 
 .card-name {
@@ -1588,3 +1616,26 @@ body.light-mode .brand-mark {
     border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
+
+#scrollToTopBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  border: none;
+  outline: none;
+  background-color: #24292e;
+  color: white;
+  cursor: pointer;
+  padding: 12px 16px;
+  border-radius: 50%;
+  font-size: 18px;
+  transition: opacity 0.3s, background-color 0.3s, transform 0.2s;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+#scrollToTopBtn:hover {
+  background-color: #007bff;
+  transform: scale(1.1);
+}

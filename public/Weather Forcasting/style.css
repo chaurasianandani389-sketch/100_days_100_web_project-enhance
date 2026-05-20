@@ -57,6 +57,39 @@
     .table {
         font-size: 0.85rem;
     }
+body {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.btn-outline-primary:hover {
+    background-color: #0b5ed7 !important;
+    transform: scale(1.05);
+}
+
+/* Improve table styling */
+.table {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Responsive fix */
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 15px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .table {
+        font-size: 0.85rem;
+    }
 }
 
 @keyframes spin {
