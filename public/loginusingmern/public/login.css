@@ -193,3 +193,52 @@ a:hover {
     font-size: 18px;
     user-select: none;
 }
+
+.error {
+    color: #ff4d4f;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.input-error {
+    border: 1px solid #ff4d4f !important;
+}
+
+.message {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.success-message {
+    color: #28a745;
+}
+
+.error-message {
+    color: #ff4d4f;
+}
+
+
+.error {
+    color: #ff4d4f;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.input-error {
+    border: 1px solid #ff4d4f !important;
+}
+
+.message {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.success-message {
+    color: #28a745;
+}
+
+.error-message {
+    color: #ff4d4f;
+}

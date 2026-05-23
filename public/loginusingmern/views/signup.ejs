@@ -11,7 +11,7 @@
 
 <body>
     <div class="container">
-        <form>
+        <form id="registerForm">
             <h1>Register</h1>
             <div class="input-group">
                 <label for="username">Username</label>
@@ -19,15 +19,16 @@
                 <div class="error"></div>
             </div>
             <div class="input-group">
-                <label for="email" >Email</label>
+                <label for="email">Email</label>
                 <input type="email" id="email" name="email" autocomplete="email" placeholder="Enter Email">
                 <div class="error"></div>
             </div>
             <div class="input-group">
                 <label for="password">Password</label>
                 <div class="input-wrapper">
-                    <input type="password" id="password" name="password" autocomplete="new-password" placeholder="Enter Password?">
-                
+                    <input type="password" id="password" name="password" autocomplete="new-password"
+                        placeholder="Enter Password?">
+
                     <span id="togglePassword">👁️</span>
                 </div>
                 <div class="error"></div>
@@ -35,8 +36,9 @@
             <div class="input-group">
                 <label for="cpassword">Confirm Password</label>
                 <div class="input-wrapper">
-                    <input type="password" id="cpassword" name="cpassword" autocomplete="new-password" placeholder="Enter Password?">
-                
+                    <input type="password" id="cpassword" name="cpassword" autocomplete="new-password"
+                        placeholder="Enter Password?">
+
                     <span id="toggleConfirmPassword">👁️</span>
                 </div>
                 <div class="error"></div>
@@ -60,12 +62,28 @@
 
             const text = await res.text();
 
+            const form = document.querySelector("form");
+
+            let messageBox = document.getElementById("messageBox");
+
+            if (!messageBox) {
+                messageBox = document.createElement("div");
+                messageBox.id = "messageBox";
+                form.appendChild(messageBox);
+            }
+
+            messageBox.innerText = text;
+
             if (!res.ok) {
-                alert(text);
+                messageBox.className = "message error-message";
                 return;
             }
 
-            alert(text);
+            messageBox.className = "message success-message";
+
+            setTimeout(() => {
+                window.location.href = "/";
+            }, 1500);
 
             window.location.href = "/";
 
@@ -73,60 +91,129 @@
             console.log(error);
         }
     }
-    
 
+
+
+   function setError(inputId, message) {
+
+    const input = document.getElementById(inputId);
+
+    const inputGroup = input.closest('.input-group');
+
+    const errorDisplay = inputGroup.querySelector('.error');
+
+    errorDisplay.innerText = message;
+}
+
+    function clearErrors() {
+
+    document.querySelectorAll('.error').forEach(error => {
+        error.innerText = '';
+    });
+
+    document.querySelectorAll('input').forEach(input => {
+        input.classList.remove('input-error');
+    });
+}
 
     function getDetails() {
-  const username = document.getElementById('username').value;
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  const cpassword = document.getElementById('cpassword').value;
 
-  if (!username || !email || !password || !cpassword) {
-    alert("All fields are required");
-    return;
-  }
+        clearErrors();
 
-  if (password !== cpassword) {
-    alert("Passwords do not match");
-    return;
-  }
+        const username = document.getElementById('username');
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        const cpassword = document.getElementById('cpassword');
 
-  postRequest({ username, email, password });
-}
+        let isValid = true;
 
+        if (!username.value.trim()) {
+            setError('username', 'Username is required');
+            username.classList.add('input-error');
+            isValid = false;
+        }
 
-function setupPasswordToggle(inputId, toggleId) {
+        if (!email.value.trim()) {
+            setError('email', 'Email is required');
+            email.classList.add('input-error');
+            isValid = false;
+        }
 
-    const passwordInput = document.getElementById(inputId);
-    const togglePassword = document.getElementById(toggleId);
+        if (!password.value.trim()) {
+            setError('password', 'Password is required');
+            password.classList.add('input-error');
+            isValid = false;
+        }
 
-    if (passwordInput && togglePassword) {
+        if (!cpassword.value.trim()) {
+            setError('cpassword', 'Confirm Password is required');
+            cpassword.classList.add('input-error');
+            isValid = false;
+        }
 
-        togglePassword.addEventListener("click", () => {
+        if (
+            password.value &&
+            cpassword.value &&
+            password.value !== cpassword.value
+        ) {
+            setError('cpassword', 'Passwords do not match');
+            password.classList.add('input-error');
+            cpassword.classList.add('input-error');
+            isValid = false;
+        }
 
-            if (passwordInput.type === "password") {
+        if (!isValid) return;
 
-                passwordInput.type = "text";
-                togglePassword.textContent = "🙈";
-
-            } else {
-
-                passwordInput.type = "password";
-                togglePassword.textContent = "👁️";
-
-            }
-
+        postRequest({
+            username: username.value,
+            email: email.value,
+            password: password.value
         });
-
     }
-}
-
-setupPasswordToggle("password", "togglePassword");
-setupPasswordToggle("cpassword", "toggleConfirmPassword");
 
 
+    function setupPasswordToggle(inputId, toggleId) {
 
+        const passwordInput = document.getElementById(inputId);
+        const togglePassword = document.getElementById(toggleId);
+
+        if (passwordInput && togglePassword) {
+
+            togglePassword.addEventListener("click", () => {
+
+                if (passwordInput.type === "password") {
+
+                    passwordInput.type = "text";
+                    togglePassword.textContent = "🙈";
+
+                } else {
+
+                    passwordInput.type = "password";
+                    togglePassword.textContent = "👁️";
+
+                }
+
+            });
+
+        }
+    }
+
+    setupPasswordToggle("password", "togglePassword");
+    setupPasswordToggle("cpassword", "toggleConfirmPassword");
+
+    document.querySelectorAll("input").forEach(input => {
+    input.addEventListener("input", () => {
+        input.classList.remove("input-error");
+
+        const error =
+            input.parentElement.parentElement.querySelector(".error");
+
+        if (error) {
+            error.innerText = "";
+        }
+    });
+});
+    
 </script>
 
 </html>
