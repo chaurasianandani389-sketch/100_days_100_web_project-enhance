@@ -35,11 +35,14 @@
                 <strong>100 Days · 100 Web Projects</strong>
             </span>
         </a>
-        <div class="nav-buttons" id="navButtons">
-            <!-- populated by JS -->
-        </div>
-    </nav>
 
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div class="nav-buttons mobile-drawer-layer" id="navButtons">
+    </div>
+    </nav>   
     <!-- ── HERO ───────────────────────────────────────────── -->
     <section class="hero" id="hero">
       <div class="hero-terminal" id="heroTerminal" aria-hidden="true"></div>
@@ -140,75 +143,101 @@
           <h2 class="section-title">Every experiment, catalogued.</h2>
         </div>
 
-        <div class="projects-header">
-          <div class="search-bar">
-            <i class="fas fa-search search-icon"></i>
-            <input
-              type="text"
-              id="searchInput"
-              class="search-input"
-              placeholder="Search projects…"
-              autocomplete="off"
-            />
-          </div>
-          <div class="filter-chips" id="filterChips">
-            <button class="chip active" data-filter="all" id="filterAll">
-              All <span class="chip-count" id="allCount">Projects</span>
-            </button>
-            <button class="chip" data-filter="game" id="filterGame">
-              Games
-            </button>
-            <button class="chip" data-filter="clone" id="filterClone">
-              Clones
-            </button>
-            <button class="chip" data-filter="tool" id="filterTool">
-              Tools
-            </button>
-            <button class="chip" data-filter="ui" id="filterUI">
-              UI / Animation
-            </button>
-            <button class="chip" data-filter="api" id="filterAPI">APIs</button>
-          </div>
-        </div>
-
-        <!-- Tech Stack Dropdown - Left aligned -->
-        <div style="margin: 20px 0 10px 0;">
-          <select id="techStackFilter" style="width: 280px; padding: 12px 20px; border-radius: 30px; border: 1px solid #333; background: #1a1a1a; color: white; cursor: pointer; font-size: 14px; outline: none;">
-            <option value="all"> Filter by Tech Stack (All)</option>
-            <option value="HTML"> HTML</option>
-            <option value="CSS"> CSS</option>
-            <option value="JavaScript"> JavaScript</option>
-            <option value="React"> React</option>
-            <option value="Node.js"> Node.js</option>
-            <option value="Express">Express</option>
-            <option value="MongoDB"> MongoDB</option>
-            <option value="Python">Python</option>
-            <option value="Tailwind"> Tailwind</option>
-            <option value="Firebase"> Firebase</option>
-            <option value="Next.js"> Next.js</option>
-            <option value="TypeScript">TypeScript</option>
+      <div class="projects-header">
+        <div class="search-bar">
+          <i class="fas fa-search search-icon"></i>
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="Search projects…"
+            autocomplete="off"
+          />
+          <button id="clearSearch" class="clear-btn" aria-label="Clear search" type="button">
+            &times;
+          </button>
+          <select id="sortProjects" aria-label="Sort projects">
+            <option value="default">Sort By</option>
+            <option value="az">A-Z</option>
+            <option value="latest">Latest Day</option>
+            <option value="difficulty">Difficulty</option>
           </select>
         </div>
 
-        <div class="project-grid" id="projectGrid"></div>
-
-        <div class="no-results" id="noResults">
-          <i class="fas fa-search"></i>
-          <p>No projects match your search.</p>
+          <button
+            id="clearTechFilter"
+            class="clear-filter-btn"
+            style="display: none;"
+            aria-label="Clear tech filters"
+          >
+            <i class="fas fa-times"></i>
+          </button>
         </div>
       </div>
-    </section>
 
-    <!-- ── FOOTER ─────────────────────────────────────────── -->
-    <footer class="footer">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <span class="footer-logo">100 Days</span>
-          <p>
-            An open-source frontend exploration challenge — a growing collection
-            of HTML, CSS &amp; JavaScript experiments.
-          </p>
-        </div>
+      <!-- Active Tech Filters Display -->
+      <div id="activeTechFilters" class="active-tech-filters" style="display: none;">
+        <span class="filter-label">Active filters:</span>
+        <div id="techFilterTags"></div>
+      </div>
+
+          <!-- Tech Stack Dropdown-->
+          <div style="margin: 20px 0 10px 0; display: flex; justify-content: flex-start; width: 100%;">
+            <select id="techStackFilter" style="width: 280px; padding: 12px 20px; border-radius: 30px; border: 1px solid #333; background: #1a1a1a; color: white; cursor: pointer; font-size: 14px;">
+              <option value="all">Filter by Tech Stack (All)</option>
+              <option value="HTML"> HTML</option>
+              <option value="CSS"> CSS</option>
+              <option value="JavaScript"> JavaScript</option>
+              <option value="React"> React</option>
+              <option value="Node.js"> Node.js</option>
+              <option value="Express">Express</option>
+              <option value="MongoDB"> MongoDB</option>
+              <option value="Python"> Python</option>
+              <option value="Tailwind"> Tailwind</option>
+              <option value="Firebase"> Firebase</option>
+              <option value="Next.js">Next.js</option>
+              <option value="TypeScript"> TypeScript</option>
+            </select>
+          </div>
+
+      <div class="filter-chips" id="filterChips">
+        <button class="chip active" data-filter="all" id="filterAll">
+          All <span class="chip-count" id="allCount">Projects</span>
+        </button>
+        <button class="chip" data-filter="game" id="filterGame">
+          Games
+        </button>
+        <button class="chip" data-filter="clone" id="filterClone">
+          Clones
+        </button>
+        <button class="chip" data-filter="tool" id="filterTool">
+          Tools
+        </button>
+        <button class="chip" data-filter="ui" id="filterUI">
+          UI / Animation
+        </button>
+        <button class="chip" data-filter="api" id="filterAPI">APIs</button>
+      </div>
+
+        <div class="project-grid" id="projectGrid"></div>
+
+      <div class="no-results" id="noResults">
+        <i class="fas fa-search"></i>
+        <p>No projects match your search.</p>
+      </div>
+    </div>
+  </section>
+    
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">100 Days</span>
+        <p>
+          An open-source frontend exploration challenge — a growing collection
+          of HTML, CSS &amp; JavaScript experiments.
+        </p>
+      </div>
 
         <div class="footer-nav">
           <h4>Navigate</h4>
@@ -227,50 +256,35 @@
           </ul>
         </div>
 
-        <div class="footer-social">
-          <h4>Connect</h4>
-          <div class="social-row">
-            <a
-              href="https://github.com/dhairyagothi"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-icon"
-              aria-label="GitHub"
-              id="footerGithub"
-            >
-              <i class="fab fa-github"></i>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/dhairya-gothi-65945b288/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-icon"
-              aria-label="LinkedIn"
-              id="footerLinkedin"
-            >
-              <i class="fab fa-linkedin-in"></i>
-            </a>
-            <a
-              href="https://www.instagram.com/dhairyaa__31/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-icon"
-              aria-label="Instagram"
-              id="footerInstagram"
-            >
-              <i class="fab fa-instagram"></i>
-            </a>
-          </div>
+      <div class="footer-social">
+        <h4>Connect</h4>
+        <div class="social-row">
+          <a href="https://github.com/dhairyagothi" target="_blank" rel="noopener noreferrer" class="social-icon"
+            aria-label="GitHub" id="footerGithub">
+            <i class="fab fa-github" aria-hidden="true"></i>
+            <span style="display:none;">Visit Dhairya Gothi's GitHub Profile</span>
+          </a>
+          <a href="https://www.linkedin.com/in/dhairya-gothi-65945b288/" target="_blank" rel="noopener noreferrer"
+            class="social-icon" aria-label="LinkedIn" id="footerLinkedin">
+            <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+            <span style="display:none;">Visit Dhairya Gothi's LinkedIn Profile</span>
+          </a>
+          <a href="https://www.instagram.com/dhairyaa__31/" target="_blank" rel="noopener noreferrer"
+            class="social-icon" aria-label="Instagram" id="footerInstagram">
+            <i class="fab fa-instagram" aria-hidden="true"></i>
+            <span style="display:none;">Visit Dhairya Gothi's Instagram Profile</span>
+          </a>
         </div>
       </div>
+    </div>
 
       <div class="footer-bottom">
-        <span>© 2024 100 Days, 100 Projects — Dhairya &amp; Contributors</span>
-        <button id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
-          <i class="fas fa-moon"></i>
-        </button>
-      </div>
-    </footer>
+      <span>© 2024 100 Days, 100 Projects — Dhairya &amp; Contributors</span>
+      <button id="themeToggle" title="Toggle theme" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i> Theme
+      </button>
+    </div>
+  </footer>
 
     <!-- ── SCROLL TO TOP ──────────────────────────────────── -->
     <button id="scrollBtn" aria-label="Scroll to top">

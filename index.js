@@ -104,7 +104,7 @@ const PROJECT_DATA = [
   ['Day 33', 'Weather Forecasting', './public/Weather%20Forcasting/index.html', 'weather api', 'intermediate'],
   ['Day 34', 'Email Validator', './public/email%20validator/index.html', 'api javascript', 'beginner'],
   ['Day 35', 'Vanilla-JavaScript-Calculator', './public/Vanilla-JavaScript-Calculator-master/index.html', 'tool javascript', 'beginner'],
-  ['Day 36', 'Medical App', './public/Medical_App/index.html', 'javascript', 'intermediate'],
+['Day 36', 'Medical App', './public/Medical_App/index.html', 'javascript', 'intermediate'],
   ['Day 37', '2048 Game', './public/2048_game/index.html', 'game javascript', 'intermediate'],
   ['Day 38', 'Github Profile Finder', './public/github_profile_finder/index.html', 'api javascript', 'intermediate'],
   ['Day 39', 'Notes App', './public/notes-app/index.html', 'todo javascript', 'beginner'],
@@ -227,7 +227,7 @@ const PROJECT_DATA = [
   ['Day 156', 'Placement Predictor', './public/Placement-Predictor/index.html', 'tool javascript html css', 'advanced'],
   ['Day 157', 'Map Route Tracker', './public/Vector-Map-Route-Tracer/index.html', 'html css javascript', 'advanced'],
   ['Day 158', 'GitHub Promo Maker', './public/GitHubPromoMaker/index.html', 'html css javascript', 'intermediate'],
-
+  ['Day 159' , 'Dining Philosophers Simulation' , './public/Dining Philosophers Simulation/index.html' , 'simulation algorithm javascript' , 'intermediate' ] ,
 ];
 const PROJECTS = PROJECT_DATA;
 
@@ -467,37 +467,20 @@ function generateReadme() {
 let activeFilter = 'all';
 let searchQuery = '';
 let sortOption = 'default';
+let techStackFilter = 'all';
 
 function renderGrid() {
   const grid = document.getElementById('projectGrid');
   const noResults = document.getElementById('noResults');
   if (!grid) return;
 
-  const filtered = PROJECTS.filter(([day, name, , tags]) => {
+  const filtered = PROJECTS.filter(([day, name, url, tags]) => {
+    // Category filter
     const category = getCategoryFromTags(tags, name);
     const targetCategory = FILTER_CATEGORY_MAP[activeFilter] || 'all';
-
     const matchesFilter = activeFilter === 'all' || category === targetCategory;
 
-      if (activeFilter === 'game') {
-        return tagStr.includes('game') || tagStr.includes('canvas');
-      }
-      if (activeFilter === 'clone') {
-        return nameStr.includes('clone') || urlStr.includes('clone') || urlStr.includes('cloning');
-      }
-      if (activeFilter === 'tool') {
-        return tagStr.includes('tool') || tagStr.includes('todo') || tagStr.includes('calculator') || tagStr.includes('weather') || nameStr.includes('tracker') || nameStr.includes('generator') || nameStr.includes('converter') || nameStr.includes('validator') || nameStr.includes('saver') || nameStr.includes('utils');
-      }
-      if (activeFilter === 'ui') {
-        return tagStr.includes('css') || tagStr.includes('canvas') || tagStr.includes('animation') || nameStr.includes('animation') || nameStr.includes('cursor') || nameStr.includes('effect') || nameStr.includes('slider');
-      }
-      if (activeFilter === 'api') {
-        return tagStr.includes('api') || tagStr.includes('weather') || nameStr.includes('api') || nameStr.includes('fetch');
-      }
-      return false;
-    })();
-
-    // Split search query by spaces to support multi-term criteria (e.g. "day 1 todo")
+    // Search filter
     const q = searchQuery.toLowerCase().trim();
     const matchesSearch = !q || q.split(/\s+/).every(term => 
       name.toLowerCase().includes(term) || 
@@ -505,44 +488,31 @@ function renderGrid() {
       (typeof tags === 'string' && tags.toLowerCase().includes(term))
     );
 
-    // Tech stack filter
-    let matchesTechStack = true;
-    if (techStackFilter !== 'all') {
+    // Tech stack dropdown filter
+    let matchesTech = true;
+    if (techStackFilter && techStackFilter !== 'all') {
       const tagStr = (typeof tags === 'string' ? tags : '').toLowerCase();
-      matchesTechStack = tagStr.includes(techStackFilter.toLowerCase());
+      matchesTech = tagStr.includes(techStackFilter.toLowerCase());
     }
-
-    return matchesFilter && matchesSearch && matchesTechStack;
-  });
-
-    const matchesTech = matchesTechStack(tags);
 
     return matchesFilter && matchesSearch && matchesTech;
   });
+
+  // Apply sorting
   if (sortOption === 'az') {
     filtered.sort((a, b) => a[1].localeCompare(b[1]));
-  }
-
-  if (sortOption === 'latest') {
+  } else if (sortOption === 'latest') {
     filtered.sort((a, b) => {
       const dayA = parseInt(a[0].replace('Day ', ''));
       const dayB = parseInt(b[0].replace('Day ', ''));
       return dayB - dayA;
     });
-  }
-
-  if (sortOption === 'difficulty') {
-    const difficultyOrder = {
-      beginner: 1,
-      intermediate: 2,
-      advanced: 3
-    };
-
+  } else if (sortOption === 'difficulty') {
+    const difficultyOrder = { beginner: 1, intermediate: 2, advanced: 3 };
     filtered.sort((a, b) => {
-      return (
-        difficultyOrder[a[4].toLowerCase()] -
-        difficultyOrder[b[4].toLowerCase()]
-      );
+      const diffA = a[4] ? difficultyOrder[a[4].toLowerCase()] || 0 : 0;
+      const diffB = b[4] ? difficultyOrder[b[4].toLowerCase()] || 0 : 0;
+      return diffA - diffB;
     });
   }
 
@@ -550,22 +520,18 @@ function renderGrid() {
 
   if (filtered.length === 0) {
     grid.style.display = 'none';
-    noResults.style.display = 'block';
+    if (noResults) noResults.style.display = 'block';
     const container = document.getElementById('paginationContainer');
-    if (container) container.innerHTML = '';
+    if (container) container.remove();
     return;
   }
 
   grid.style.display = 'grid';
-  noResults.style.display = 'none';
+  if (noResults) noResults.style.display = 'none';
 
   const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
-  if (currentPage > totalPages) {
-    currentPage = totalPages;
-  }
-  if (currentPage < 1) {
-    currentPage = 1;
-  }
+  if (currentPage > totalPages) currentPage = totalPages;
+  if (currentPage < 1) currentPage = 1;
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -575,33 +541,37 @@ function renderGrid() {
     const category = getCategoryFromTags(tags, name);
     const card = document.createElement('div');
     card.className = 'project-card';
-    const isBookmarked = bookmarkedProjects.some((item) => item[0] === day);
-    const tagsArray = typeof tags === 'string' ? tags.split(/\s+/).filter((t) => t) : tags;
+    const isBookmarked = bookmarkedProjects ? bookmarkedProjects.some((item) => item[0] === day) : false;
+    
+    // Safe tags handling
+    let tagsArray = [];
+    if (tags) {
+      tagsArray = typeof tags === 'string' ? tags.split(/\s+/).filter((t) => t) : tags;
+    }
     const tagsHTML = tagsArray.map((t) => `<span class="tag">${t}</span>`).join('');
     const sourceUrl = getSourceUrl(url);
 
     card.innerHTML = `
-            <div class="card-meta">
-                <span class="card-day">${day}</span>
-                <span class="card-category">${category}</span>
-            </div>
-            <div class="card-name">${name}</div>
-            <div class="card-tags">${tagsHTML}</div>
-            <div class="card-footer">
-                <div class="card-actions-left">
-                    <a href="${url.trim()}" target="_blank" class="card-link open-project" data-id="${day}" rel="noopener noreferrer">
-                        Demo <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <a href="${sourceUrl}" target="_blank" class="card-link view-code-link" rel="noopener noreferrer">
-                        <i class="fab fa-github"></i> Code
-                    </a>
-                </div>
-                <button class="bookmark-btn ${isBookmarked ? 'active' : ''}" data-id="${day}">
-                    <i class="${isBookmarked ? 'fa-solid' : 'fa-regular'} fa-bookmark"></i>
-                </button>
-            </div>
-        `;
-
+      <div class="card-meta">
+        <span class="card-day">${day}</span>
+        <span class="card-category">${category}</span>
+      </div>
+      <div class="card-name">${name}</div>
+      <div class="card-tags">${tagsHTML}</div>
+      <div class="card-footer">
+        <div class="card-actions-left">
+          <a href="${url.trim()}" target="_blank" class="card-link open-project" data-id="${day}">
+            Demo <i class="fas fa-arrow-right"></i>
+          </a>
+          <a href="${sourceUrl}" target="_blank" class="card-link view-code-link">
+            <i class="fab fa-github"></i> Code
+          </a>
+        </div>
+        <button class="bookmark-btn ${isBookmarked ? 'active' : ''}" data-id="${day}">
+          <i class="${isBookmarked ? 'fa-solid' : 'fa-regular'} fa-bookmark"></i>
+        </button>
+      </div>
+    `;
     grid.appendChild(card);
   });
 
@@ -964,11 +934,8 @@ function initFilterChips() {
 }
 
 /* ============================================================
-   LIVE SEARCH 
+   LIVE SEARCH & TECH STACK FILTER
    ============================================================ */
-
-// Add this variable at the top with your other variables (let searchQuery = ''; etc.)
-let techStackFilter = 'all';
 
 function initSearch() {
   const input = document.getElementById('searchInput');
@@ -980,7 +947,7 @@ function initSearch() {
     renderGrid();
   });
   
-  // Tech stack filter listener
+  // Tech stack dropdown filter listener
   const techStack = document.getElementById('techStackFilter');
   if (techStack) {
     techStack.addEventListener('change', () => {
@@ -990,9 +957,9 @@ function initSearch() {
     });
   }
 }
+
 function initSorting() {
   const sortSelect = document.getElementById('sortProjects');
-
   if (!sortSelect) return;
 
   sortSelect.addEventListener('change', (e) => {
@@ -1001,6 +968,7 @@ function initSorting() {
     renderGrid();
   });
 }
+
 /* ============================================================
    TECH STACK SEARCH INITIALIZATION
    ============================================================ */
@@ -1010,45 +978,35 @@ function initTechStackSearch() {
 
   if (!input) return;
 
-  // Debounce timer for performance
   let debounceTimer;
 
-  // Listen for input changes
   input.addEventListener('input', (e) => {
     clearTimeout(debounceTimer);
-
-    // Debounce: wait 300ms after user stops typing
     debounceTimer = setTimeout(() => {
       const value = e.target.value.trim().toLowerCase();
 
       if (value) {
-        // Split by comma or space to support multiple technologies
-        // More efficient: direct lowercase conversion
         const techs = value.split(/[,\s]+/).filter(t => t.length > 0);
-
         techStackFilters = [...new Set(techs)];
-
         updateTechFilterDisplay();
+        currentPage = 1;
         renderGrid();
       } else {
-        // Empty input = clear all filters
         clearAllTechFilters();
       }
-    }, 300); // 300ms debounce delay
+    }, 300);
   });
 
-  // Clear button functionality
   if (clearBtn) {
     clearBtn.addEventListener('click', () => {
       clearAllTechFilters();
     });
   }
 
-  // Optional: Add Enter key support
   input.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      input.blur(); // Trigger the debounced input event
+      input.blur();
     }
   });
 }
@@ -1057,23 +1015,16 @@ function initTechStackSearch() {
    SEARCH CONTROLS
    ============================================================ */
 const searchInput = document.getElementById('searchInput');
-const clearBtn = document.getElementById('clearSearch');
+const clearSearchBtn = document.getElementById('clearSearch');
 
 function syncProjectCounts() {
-  // Apply filters to get accurate count
   let filtered = [...PROJECTS];
   
+  // Apply search filter
   if (searchQuery) {
-    filtered = filtered.filter(project =>
-      project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (project.description && project.description.toLowerCase().includes(searchQuery.toLowerCase()))
-    );
-  }
-  
-  // Tech stack filter for count
-  if (techStackFilter !== 'all') {
-    filtered = filtered.filter(project => 
-      project.techStack && project.techStack === techStackFilter
+    filtered = filtered.filter(([day, name]) => 
+      name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      day.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }
   
@@ -1090,8 +1041,8 @@ function syncProjectCounts() {
 }
 
 // Clear button functionality
-if (searchInput && clearBtn) {
-  clearBtn.addEventListener("click", () => {
+if (searchInput && clearSearchBtn) {
+  clearSearchBtn.addEventListener("click", () => {
     searchInput.value = "";
     searchInput.dispatchEvent(new Event("input"));
     searchInput.focus();
@@ -1106,7 +1057,7 @@ if (searchInput && clearBtn) {
   });
 }
 
-// initialize
+// Initialize
 syncProjectCounts();
 
 /* ============================================================
@@ -1306,4 +1257,66 @@ window.addEventListener('resize', () => {
    (Required for HTML onclick handlers)
    ============================================================ */
 window.removeTechFilter = removeTechFilter;
-window.clearAllTechFilters = clearAllTechFilters;
+window.clearAllTechFilters = clearAllTechFilters; 
+
+// Particle Network Background
+(function () {
+  const canvas = document.getElementById('particleCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+  const N = 60;
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function init() {
+    particles = [];
+    for (let i = 0; i < N; i++) {
+      particles.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 3 + 1, 
+        hue: [220, 260, 280][Math.floor(Math.random() * 3)],
+        alpha: Math.random() * 0.8 + 0.4,
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+    });
+    for (let i = 0; i < N; i++) {
+      for (let j = i + 1; j < N; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(59,130,246,${(1 - d / 120) * 0.35})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+    }
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `hsla(${p.hue},80%,72%,${p.alpha})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { resize(); init(); });
+  resize(); init(); draw();
+})();
