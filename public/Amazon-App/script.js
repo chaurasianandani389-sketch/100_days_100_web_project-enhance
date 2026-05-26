@@ -120,6 +120,57 @@ if (sbThemeToggle) {
 closeSidebar();
 });
 
+// ==========================================
+// NAVBAR THEME TOGGLE LOGIC
+// ==========================================
+const lightBtn = document.getElementById('sb-theme-light-btn');
+const darkBtn = document.getElementById('sb-theme-dark-btn');
+const themeToggle = document.querySelector('.theme-switch-container');
+const darkModeBtn = document.getElementById("dark-mode-btn");
+const toggleText = document.getElementById("toggle-text");
+const toggleCircle = document.querySelector(".toggle-circle");
+const toggleSwitch = document.querySelector(".toggle-switch");
+
+
+if (localStorage.getItem('theme') === 'light') {
+  document.body.classList.add('light-theme');
+}
+
+
+lightBtn.addEventListener('click', () => {
+  document.body.classList.remove('dark-theme');
+  localStorage.setItem('theme', 'light');
+});
+
+
+darkBtn.addEventListener('click', () => {
+  document.body.classList.add('dark-theme');
+  localStorage.setItem('theme', 'dark');
+});
+
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark-theme');
+});
+
+
+
+darkModeBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark-theme");
+
+  if (document.body.classList.contains("dark-theme")) {
+    toggleText.textContent = "On";
+    toggleSwitch.style.background = "#111";   
+    toggleCircle.style.right = "34px";        
+  } else {
+    toggleText.textContent = "Off";
+    toggleSwitch.style.background = "#fff";  
+    toggleCircle.style.right = "3px";        
+  }
+});
+
+// ==========================================
+// HEADER SLIDER LOGIC
+// ==========================================
 let n = 0;
 
 function changeSlide() {
@@ -222,11 +273,11 @@ function saveCart() {
 }
 
 function updateCartCount() {
-    const cartCount = document.querySelector('.nav-cart h4');
+    const cartCounts = document.querySelectorAll('.cart-count');
 
-    if (cartCount) {
-        cartCount.innerText = `Cart (${cart.length})`;
-    }
+    cartCounts.forEach(el => {
+        el.innerText = `${cart.length}`;
+    });
 }
 
 updateCartCount();
@@ -254,6 +305,7 @@ productCards.forEach((card, index) => {
 
         cart.push(product);
         saveCart();
+        updateCartCount();
 
         // SEND TO BACKEND
         try {
@@ -304,7 +356,7 @@ async function loginUser(email, password) {
 document.addEventListener("DOMContentLoaded", () => {
 
     // ===========================
-    // ELEMENTS
+    //  SIGN IN / SIGN UP
     // ===========================
     const signinModal = document.getElementById('signin-modal');
     const signupModal = document.getElementById('signup-modal');
@@ -316,18 +368,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const closeBtns = document.querySelectorAll('.close-btn');
 
-    // ===========================
-    // OPEN SIGNIN
-    // ===========================
+   
     if (openSignin) {
         openSignin.addEventListener('click', () => {
             signinModal.style.display = 'flex';
         });
     }
 
-    // ===========================
+  
     // CLOSE MODALS
-    // ===========================
     closeBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             signinModal.style.display = 'none';
@@ -335,9 +384,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // ===========================
+   
     // OPEN SIGNUP
-    // ===========================
     if (showSignup) {
         showSignup.addEventListener('click', () => {
             signinModal.style.display = 'none';
@@ -345,9 +393,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ===========================
-    // SIGN UP
-    // ===========================
+   
+    
     if (signupBtn) {
         signupBtn.addEventListener('click', () => {
 
@@ -372,9 +419,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ===========================
+   
     // SIGN IN
-    // ===========================
     if (signinBtn) {
         signinBtn.addEventListener('click', () => {
 
@@ -495,27 +541,6 @@ async function placeOrder() {
     }
 }
 
-const lightBtn = document.getElementById('sb-theme-light-btn');
-const darkBtn = document.getElementById('sb-theme-dark-btn');
-
-// Load saved theme
-if (localStorage.getItem('theme') === 'dark') {
-  document.body.classList.add('dark-theme');
-}
-
-// Light mode
-lightBtn.addEventListener('click', () => {
-  document.body.classList.remove('dark-theme');
-  localStorage.setItem('theme', 'light');
-});
-
-// Dark mode
-darkBtn.addEventListener('click', () => {
-  document.body.classList.add('dark-theme');
-  localStorage.setItem('theme', 'dark');
-});
-
-
 
 // -------------------------------
 // BACK TO TOP BUTTON
@@ -542,8 +567,3 @@ topBtn.addEventListener('click', () => {
     });
 });
 
-const themeToggle = document.querySelector('.theme-switch-container');
-
-themeToggle.addEventListener('click', () => {
-  document.body.classList.toggle('dark-theme');
-});

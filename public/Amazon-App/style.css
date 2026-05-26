@@ -316,6 +316,17 @@ nav{
     font-weight:600;
 }
 
+/* Light theme (default) */
+body {
+  background: #fff;
+  color: #111;
+}
+
+/* Dark theme */
+body.dark-theme {
+  background: #111;
+  color: #fff;
+}
 
 /* =========================
    HEADER SLIDER
@@ -590,6 +601,10 @@ footer{
 .dark-theme .toggle-circle{
     left:3px;
     right:auto;
+}
+.dark-theme .product-card h4,
+.dark-theme .product-card p{
+    color:#ddd;
 }
 
 /* =========================
