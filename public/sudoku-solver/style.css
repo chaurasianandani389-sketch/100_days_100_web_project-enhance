@@ -1,47 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    background: #1a1a1a;
-    color: #fff;
-    font-family: sans-serif;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
+    padding: 20px;
+    font-family: 'Press Start 2P', cursive;
+    background: #111111; /* Flat dark background */
 }
-.container { text-align: center; }
+
+.container {
+    width: 100%;
+    max-width: 540px;
+    padding: 30px;
+    border-radius: 0px; /* Pure sharp retro corners */
+    background: #1a1a1a;
+    border: 4px solid #ffffff; /* Crisp flat border */
+    text-align: center;
+}
+
+h1 {
+    color: #ffff00; /* Pac-Man Yellow Title */
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    color: #aaaaaa;
+    margin-bottom: 25px;
+    font-size: 0.55rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Flat Grid Container */
 .sudoku-grid {
     display: grid;
-    grid-template-columns: repeat(9, 40px);
-    grid-template-rows: repeat(9, 40px);
-    gap: 1px;
-    background: #444;
-    padding: 2px;
-    border: 3px solid #fff;
-    margin-bottom: 20px;
+    grid-template-columns: repeat(9, 1fr);
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: #222222;
+    border: 4px solid #ffffff; /* Main structural frame */
 }
+
 .sudoku-grid input {
-    width: 40px;
-    height: 40px;
+    width: 100%;
+    aspect-ratio: 1;
+    border: 1px solid #444444;
+    background: #222222;
+    color: #ffffff; /* Default typed text color before action */
+    font-family: 'Press Start 2P', cursive;
+    font-size: 1.2rem;
+    font-weight: bold;
     text-align: center;
-    font-size: 18px;
-    background: #2a2a2a;
-    color: #fff;
-    border: none;
+    outline: none;
 }
-.sudoku-grid input:nth-child(3n) { border-right: 2px solid #fff; }
-.sudoku-grid input:nth-child(9n) { border-right: none; }
-/* Row grouping borders */
+
+.sudoku-grid input:hover {
+    background: #333333;
+}
+
+/* 3x3 Block Boundary Splits */
+.sudoku-grid input:nth-child(3n):not(:nth-child(9n)) {
+    border-right: 4px solid #ffffff;
+}
+
 .sudoku-grid input:nth-child(n+19):nth-child(-n+27),
 .sudoku-grid input:nth-child(n+46):nth-child(-n+54) {
-    border-bottom: 2px solid #fff;
+    border-bottom: 4px solid #ffffff;
 }
+
+/* --- THE COLOR SEPARATION SYSTEM (FLAT, NO NEON GLOW) --- */
+
+/* 1. Generated/Initial numbers: Solid Bright Yellow */
+.user-input {
+    color: #ffff00 !important;
+    background: #222222 !important;
+}
+
+/* 2. Solved numbers found by algorithm: Solid Bright Cyan */
+.solved-cell {
+    color: #00ffff !important;
+    background: #222222 !important;
+}
+
+/* 3. Active step evaluation: Solid Inverted Block for extreme legibility */
+.active-cell {
+    background: #ffffff !important;
+    color: #000000 !important;
+}
+
+/* Controls Header Layout */
+.controls {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
 .controls button {
-    padding: 10px 20px;
-    margin: 0 10px;
-    font-size: 16px;
+    padding: 12px 16px;
+    border: 3px solid #ffffff;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.65rem;
     cursor: pointer;
-    background: #4ab3f4;
-    border: none;
-    color: white;
-    border-radius: 4px;
+    color: #ffffff;
+    background: #000000;
+    text-transform: uppercase;
+    transition: transform 0.1s ease;
+}
+
+/* Button Colors mapped out flat */
+.controls button:nth-child(1) {
+    border-color: #ffff00;
+    color: #ffff00;
+}
+.controls button:nth-child(1):hover:not(:disabled) {
+    background: #ffff00;
+    color: #000000;
+}
+
+.controls button:nth-child(2) {
+    border-color: #ffb8ff;
+    color: #ffb8ff;
+}
+.controls button:nth-child(2):hover:not(:disabled) {
+    background: #ffb8ff;
+    color: #000000;
+}
+
+.controls button:nth-child(3) {
+    border-color: #00ffff;
+    color: #00ffff;
+}
+.controls button:nth-child(3):hover:not(:disabled) {
+    background: #00ffff;
+    color: #000000;
+}
+
+.controls button:hover:not(:disabled) {
+    transform: translateY(-2px);
+}
+
+.controls button:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.controls button:disabled {
+    opacity: 0.25;
+    border-color: #555555;
+    color: #555555;
+    cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 16px;
+    }
+    h1 {
+        font-size: 1rem;
+    }
+    .subtitle {
+        font-size: 0.5rem;
+    }
+    .sudoku-grid input {
+        font-size: 0.85rem;
+    }
+    .controls button {
+        width: 100%;
+    }
 }
