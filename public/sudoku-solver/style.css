@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap');
 
 * {
     margin: 0;
@@ -12,96 +12,115 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
-    font-family: 'Press Start 2P', cursive;
-    background: #111111; /* Flat dark background */
+    font-family: 'Fira Code', monospace; /* Sharp developer font */
+    background-color: #030712; /* Deep space black */
+    /* Cosmic multi-layer background glow effects */
+    background-image: 
+        radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 45%);
+    background-attachment: fixed;
+    overflow-x: hidden;
 }
 
+/* Glass panel design */
 .container {
     width: 100%;
-    max-width: 540px;
+    max-width: 500px;
     padding: 30px;
-    border-radius: 0px; /* Pure sharp retro corners */
-    background: #1a1a1a;
-    border: 4px solid #ffffff; /* Crisp flat border */
+    border-radius: 20px;
+    background: rgba(15, 23, 42, 0.45); /* Highly transparent deep blue-slate tint */
+    backdrop-filter: blur(16px) saturate(120%);
+    -webkit-backdrop-filter: blur(16px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.08); /* Clean, subtle frosted glass edge */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
     text-align: center;
+    animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 h1 {
-    color: #ffff00; /* Pac-Man Yellow Title */
-    font-size: 1.5rem;
-    margin-bottom: 12px;
-    letter-spacing: 1px;
+    color: #ffffff;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
 }
 
 .subtitle {
-    color: #aaaaaa;
+    color: #64748b; /* Soft slate text */
     margin-bottom: 25px;
-    font-size: 0.55rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 500;
 }
 
-/* Flat Grid Container */
+/* Sci-fi Terminal Grid Overlay */
 .sudoku-grid {
     display: grid;
     grid-template-columns: repeat(9, 1fr);
     width: 100%;
     aspect-ratio: 1;
     overflow: hidden;
-    background: #222222;
-    border: 4px solid #ffffff; /* Main structural frame */
+    border-radius: 12px;
+    background: rgba(3, 7, 18, 0.6); /* Internal darkened contrast panel */
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .sudoku-grid input {
     width: 100%;
     aspect-ratio: 1;
-    border: 1px solid #444444;
-    background: #222222;
-    color: #ffffff; /* Default typed text color before action */
-    font-family: 'Press Start 2P', cursive;
-    font-size: 1.2rem;
-    font-weight: bold;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: transparent;
+    color: #e2e8f0; /* Default readable clean text */
+    font-family: 'Fira Code', monospace;
+    font-size: 1.3rem;
+    font-weight: 600;
     text-align: center;
     outline: none;
+    transition: all 0.15s ease;
 }
 
+/* Hover state over cell matrix */
 .sudoku-grid input:hover {
-    background: #333333;
+    background: rgba(255, 255, 255, 0.04);
 }
 
-/* 3x3 Block Boundary Splits */
+.sudoku-grid input:focus {
+    background: rgba(99, 102, 241, 0.15);
+    box-shadow: inset 0 0 0 1px #6366f1; /* Sharp structural accent edge instead of bleed glow */
+}
+
+/* Clear 3x3 Box Segregations (Crisp sharp line breaks) */
 .sudoku-grid input:nth-child(3n):not(:nth-child(9n)) {
-    border-right: 4px solid #ffffff;
+    border-right: 2px solid rgba(255, 255, 255, 0.25);
 }
 
 .sudoku-grid input:nth-child(n+19):nth-child(-n+27),
 .sudoku-grid input:nth-child(n+46):nth-child(-n+54) {
-    border-bottom: 4px solid #ffffff;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.25);
 }
 
-/* --- THE COLOR SEPARATION SYSTEM (FLAT, NO NEON GLOW) --- */
+/* --- SEPARATED CODER COLORS (MAX READABILITY) --- */
 
-/* 1. Generated/Initial numbers: Solid Bright Yellow */
+/* Generated/Initial layout numbers: Sharp Cyber Cyan */
 .user-input {
-    color: #ffff00 !important;
-    background: #222222 !important;
+    color: #00f0ff !important;
+    font-weight: 700;
 }
 
-/* 2. Solved numbers found by algorithm: Solid Bright Cyan */
+/* Solved algorithm numbers: Bright Matrix Green/Yellow */
 .solved-cell {
-    color: #00ffff !important;
-    background: #222222 !important;
+    color: #39ff14 !important;
+    font-weight: 700;
 }
 
-/* 3. Active step evaluation: Solid Inverted Block for extreme legibility */
+/* Current processing block step: Inverted white panel block */
 .active-cell {
     background: #ffffff !important;
-    color: #000000 !important;
+    color: #030712 !important;
 }
 
-/* Controls Header Layout */
+/* Controls layout styling */
 .controls {
-    margin-top: 30px;
+    margin-top: 25px;
     display: flex;
     justify-content: center;
     gap: 12px;
@@ -109,72 +128,64 @@ h1 {
 }
 
 .controls button {
-    padding: 12px 16px;
-    border: 3px solid #ffffff;
-    font-family: 'Press Start 2P', cursive;
-    font-size: 0.65rem;
+    padding: 12px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
     cursor: pointer;
     color: #ffffff;
-    background: #000000;
-    text-transform: uppercase;
-    transition: transform 0.1s ease;
+    background: rgba(255, 255, 255, 0.03);
+    transition: all 0.2s ease;
 }
 
-/* Button Colors mapped out flat */
+/* Primary Action Button Details */
 .controls button:nth-child(1) {
-    border-color: #ffff00;
-    color: #ffff00;
+    background: #6366f1; /* Clean Solid Indigo */
+    border-color: #818cf8;
 }
 .controls button:nth-child(1):hover:not(:disabled) {
-    background: #ffff00;
-    color: #000000;
+    background: #4f46e5;
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
 }
 
-.controls button:nth-child(2) {
-    border-color: #ffb8ff;
-    color: #ffb8ff;
-}
-.controls button:nth-child(2):hover:not(:disabled) {
-    background: #ffb8ff;
-    color: #000000;
-}
-
-.controls button:nth-child(3) {
-    border-color: #00ffff;
-    color: #00ffff;
-}
-.controls button:nth-child(3):hover:not(:disabled) {
-    background: #00ffff;
-    color: #000000;
-}
-
+/* Alternative Action Button Details */
 .controls button:hover:not(:disabled) {
-    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .controls button:active:not(:disabled) {
-    transform: translateY(1px);
+    transform: scale(0.97);
 }
 
 .controls button:disabled {
     opacity: 0.25;
-    border-color: #555555;
-    color: #555555;
     cursor: not-allowed;
+    border-color: transparent;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @media (max-width: 600px) {
     .container {
-        padding: 16px;
+        padding: 20px;
     }
     h1 {
-        font-size: 1rem;
-    }
-    .subtitle {
-        font-size: 0.5rem;
+        font-size: 1.3rem;
     }
     .sudoku-grid input {
-        font-size: 0.85rem;
+        font-size: 1rem;
     }
     .controls button {
         width: 100%;
