@@ -250,13 +250,107 @@ function renderPagination(totalItems, totalPages) {
   const controlsDiv = document.createElement('div');
   controlsDiv.className = 'pagination-controls';
 
+<<<<<<< HEAD
   for (let i = 1; i <= totalPages; i++) {
+=======
+  const firstBtn = document.createElement('button');
+  firstBtn.className = 'first-btn';
+  firstBtn.innerHTML = '⏮ First';
+  firstBtn.disabled = currentPage === 1;
+
+  firstBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (currentPage !== 1) {
+      currentPage = 1;
+      renderGrid();
+      setTimeout(() => scrollToProjectSection(), 50);
+    }
+  });
+
+  controlsDiv.appendChild(firstBtn);
+
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'prev-btn';
+  prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+  prevBtn.disabled = currentPage === 1;
+  prevBtn.setAttribute('aria-label', 'Previous Page');
+  prevBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (currentPage > 1) {
+      currentPage--;
+      renderGrid();
+      // Delay scrolling by 50ms to allow DOM layout to recalculate and stabilize after cards redraw
+      setTimeout(() => {
+        scrollToProjectSection();
+      }, 50);
+    }
+  });
+  controlsDiv.appendChild(prevBtn);
+
+  // Initialize bounds for numeric pagination window (displays maximum of 4 page buttons)
+  let startPage = 1;
+  let endPage = totalPages;
+  const maxVisible = 4;
+
+  // Sliding window pagination logic centering the active page
+  if (totalPages > maxVisible) {
+    if (currentPage <= 2) {
+      startPage = 1;
+      endPage = 4;
+    } else if (currentPage >= totalPages - 1) {
+      startPage = totalPages - 3;
+      endPage = totalPages;
+    } else {
+      startPage = currentPage - 1;
+      endPage = currentPage + 2;
+    }
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
+>>>>>>> upstream/Main
     const pageBtn = document.createElement('button');
     pageBtn.className = `page-num ${currentPage === i ? 'active' : ''}`;
     pageBtn.textContent = i;
     pageBtn.addEventListener('click', () => { currentPage = i; renderGrid(); });
     controlsDiv.appendChild(pageBtn);
   }
+<<<<<<< HEAD
+=======
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'next-btn';
+  nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+  nextBtn.disabled = currentPage === totalPages;
+  nextBtn.setAttribute('aria-label', 'Next Page');
+  nextBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderGrid();
+      // Delay scrolling by 50ms to allow DOM layout to recalculate and stabilize after cards redraw
+      setTimeout(() => {
+        scrollToProjectSection();
+      }, 50);
+    }
+  });
+  controlsDiv.appendChild(nextBtn);
+  const lastBtn = document.createElement('button');
+  lastBtn.className = 'last-btn';
+  lastBtn.innerHTML =  'Last ⏭';
+  lastBtn.disabled = currentPage === totalPages;
+
+  lastBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (currentPage !== totalPages) {
+      currentPage = totalPages;
+      renderGrid();
+      setTimeout(() => scrollToProjectSection(), 50);
+    }
+  });
+
+  controlsDiv.appendChild(lastBtn);
+
+>>>>>>> upstream/Main
   container.appendChild(controlsDiv);
   grid.appendChild(container);
 }
