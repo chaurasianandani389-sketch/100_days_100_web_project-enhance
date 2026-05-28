@@ -1790,8 +1790,8 @@
 "techStack":["game","html","css","javascript"],
 "difficulty":"intermediate",
 "projectPath":"./public/CYBER TYPE BATTLE/index.html"
-},
-
+}
+,
 {
   "projectNo":180,
   "projectName":"RouteMaster",
@@ -1818,8 +1818,7 @@
 "techStack":["tool","javascript","html","css","visualizer","education"],
 "difficulty":"advanced",
 "projectPath":"./public/code-execution-visualizer/index.html"
-}
-,
+},
 {
   "projectNo": 183,
   "projectName": "LeetCode Progress Tracker",
@@ -1828,5 +1827,14 @@
   "techStack": ["tool","javascript","html","css","api"],
   "difficulty": "advanced",
   "projectPath": "./public/leetcode-progress-tracker/index.html"
+},
+{
+  "projectNo":184,
+  "projectName":"Minesweeper",
+  "projectType":"Game",
+  "projectDesc":"Classic Minesweeper game with a modern twist.",
+  "techStack":["game","html","css","javascript"],
+  "difficulty":"intermediate",
+  "projectPath":"./public/Minesweeper/index.html"
 }
 ]
