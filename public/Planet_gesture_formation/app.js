@@ -4,8 +4,7 @@ const ctx = canvas.getContext('2d');
 const video = document.getElementById('video');
 const gestureLabel = document.getElementById('gesture');
 const trackingToggle = document.getElementById('trackingToggle');
-const instructionsToggle = document.getElementById('instructionsToggle');
-const instructionsPanel = document.getElementById('instructions');
+const instructionsNavItem = document.getElementById('instructionsNavItem');
 
 let DPR = Math.max(1, window.devicePixelRatio || 1);
 let width = 1280, height = 720;
@@ -19,8 +18,20 @@ function resize(){
   canvas.style.height = h + 'px';
   ctx.setTransform(DPR,0,0,DPR,0,0);
   
-  // Update particles center
-  // Could recreate particles optionally, but we'll let them drift.
+  width = w;
+  height = h;
+  
+  // Update particles targetRadius responsively
+  const scale = Math.max(0.5, Math.min(width / 1280, 1.2));
+  for (const p of particles) {
+    if (p.baseTargetRadius) {
+      if (p.type === 'ring') {
+        p.targetRadius = p.baseTargetRadius * scale;
+      } else {
+        p.targetRadius = p.baseTargetRadius;
+      }
+    }
+  }
 }
 window.addEventListener('resize', resize);
 resize();
@@ -40,7 +51,10 @@ class Star{
   }
   update(h){
     this.y += this.speed;
-    if(this.y > h + 2) this.y = -2, this.x = Math.random()*canvas.width;
+    if(this.y > h + 2) {
+      this.y = -2;
+      this.x = Math.random() * (canvas.width / DPR);
+    }
   }
   draw(ctx){
     ctx.fillStyle = `rgba(255,255,255,${this.opacity})`;
@@ -54,9 +68,11 @@ let staticStars = [];
 function initStars(){
   stars = [];
   staticStars = [];
-  // Generate stars over an extended area handling wide aspect ratios
-  const maxW = Math.max(2560, canvas.width);
-  const maxH = Math.max(1440, canvas.height);
+  // Generate stars over an extended area using CSS pixels for consistency
+  const cssW = canvas.width / DPR;
+  const cssH = canvas.height / DPR;
+  const maxW = Math.max(2560, cssW);
+  const maxH = Math.max(1440, cssH);
   for(let i=0;i<STAR_COUNT;i++) stars.push(new Star(maxW, maxH));
   for(let i=0;i<800;i++) {
     staticStars.push({
@@ -67,7 +83,6 @@ function initStars(){
     });
   }
 }
-initStars();
 
 // ---------------- Particles ----------------
 class Particle{
@@ -242,16 +257,17 @@ function initParticles(){
         // Outer minor ring
         targetRad = 480 + Math.random() * 100;
       }
+      p.baseTargetRadius = targetRad;
       p.targetRadius = targetRad * Math.max(0.5, Math.min(width/1280, 1.2));
     } else {
       // compact solid core
-      p.targetRadius = 20 + Math.pow(Math.random(), 0.6) * 140;
+      p.baseTargetRadius = 20 + Math.pow(Math.random(), 0.6) * 140;
+      p.targetRadius = p.baseTargetRadius;
     }
     p.stagger = (i % 300) / 300; // 0..~1
     particles.push(p);
   }
 }
-initParticles();
 
 // --------------- Visual Effects & Objects ---------------
 class Shockwave {
@@ -288,7 +304,7 @@ let zoomFactor = 1.0;
 let userRotationSpeed = 0.003;
 let chargeTimer = 0;
 let mode = 'scatter';
-let globalRotationAngle = 0;
+// rotation state
 
 function setGesture1(g){
   if(hand1.gesture !== g){
@@ -316,23 +332,39 @@ let hands = null;
 let cameraFeed = null;
 
 async function setupMediaPipe(){
-  hands = new window.Hands({locateFile: (f)=> `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${f}`});
-  hands.setOptions({
-    maxNumHands: 1,
-    modelComplexity: 1,
-    minDetectionConfidence: 0.65,
-    minTrackingConfidence: 0.6
-  });
-  hands.onResults(onResults);
+  if (typeof window.Hands !== 'function' || typeof window.Camera !== 'function') {
+    console.error('MediaPipe Hands or Camera failed to load.');
+    if (gestureLabel) gestureLabel.textContent = 'tracking unavailable';
+    trackingToggle.checked = false;
+    return false;
+  }
+  try {
+    hands = new window.Hands({locateFile: (f)=> `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${f}`});
+    hands.setOptions({
+      maxNumHands: 1,
+      modelComplexity: 1,
+      minDetectionConfidence: 0.65,
+      minTrackingConfidence: 0.6
+    });
+    hands.onResults(onResults);
 
-  cameraFeed = new window.Camera(video, {
-    onFrame: async () => {
-      if(trackingToggle.checked) await hands.send({image: video});
-    },
-    width: 640,
-    height: 480
-  });
-  await cameraFeed.start();
+    cameraFeed = new window.Camera(video, {
+      onFrame: async () => {
+        if(trackingToggle.checked && hands) await hands.send({image: video});
+      },
+      width: 640,
+      height: 480
+    });
+    await cameraFeed.start();
+    return true;
+  } catch (error) {
+    console.error('Failed to initialize MediaPipe Hands.', error);
+    hands = null;
+    cameraFeed = null;
+    if(gestureLabel) gestureLabel.textContent = 'tracking unavailable';
+    trackingToggle.checked = false;
+    return false;
+  }
 }
 
 function classifyHand(landmarks) {
@@ -451,7 +483,7 @@ function updatePhysicsAndDraw(dt){
      }
   }
 
-  globalRotationAngle += userRotationSpeed;
+  // increment rotation
 
   // Draw charge glow gradient (Yellow -> Red) inside planet
   if (chargeTimer > 0) {
@@ -474,7 +506,7 @@ function updatePhysicsAndDraw(dt){
 
   // Update particles (stay stationary relative to screen center)
   for(const p of particles){
-    if(mode === 'converge' || mode === 'orbit'){
+    if(mode === 'converge'){
       p.angle += userRotationSpeed * (p.type==='core' ? 1.5 : 1);
     }
     p.update(cx,cy, mode === 'converge' ? 'converge' : 'scatter');
@@ -505,23 +537,42 @@ requestAnimationFrame(loop);
 // --------------- UI & Controls ---------------
 trackingToggle.addEventListener('change', ()=>{
   if(trackingToggle.checked){
-    if(!hands) setupMediaPipe();
+    if(!hands) {
+      setupMediaPipe().catch(err => {
+        console.error('Failed to setup MediaPipe on toggle', err);
+      });
+    }
   } else {
-    setGesture('none');
+    setGesture1('none');
   }
 });
 
-instructionsToggle.addEventListener('change', ()=>{
-  instructionsPanel.style.display = instructionsToggle.checked ? 'block' : 'none';
+if (instructionsNavItem) {
+  instructionsNavItem.addEventListener('click', (e) => {
+    // Avoid closing dropdown when clicking inside it
+    if (e.target.closest('#instructionsDropdown')) return;
+    instructionsNavItem.classList.toggle('active');
+  });
+}
+
+// Close instructions dropdown if clicked outside
+window.addEventListener('click', (e) => {
+  if (instructionsNavItem && !instructionsNavItem.contains(e.target)) {
+    instructionsNavItem.classList.remove('active');
+  }
 });
 
 window.addEventListener('keydown', (e)=>{
-  if(e.key.toLowerCase() === 't') trackingToggle.checked = !trackingToggle.checked, trackingToggle.dispatchEvent(new Event('change'));
-  if(e.key.toLowerCase() === 'i') instructionsToggle.checked = !instructionsToggle.checked, instructionsToggle.dispatchEvent(new Event('change'));
+  if(e.key.toLowerCase() === 't') {
+    trackingToggle.checked = !trackingToggle.checked;
+    trackingToggle.dispatchEvent(new Event('change'));
+  }
+  if(e.key.toLowerCase() === 'i') {
+    if (instructionsNavItem) {
+      instructionsNavItem.classList.toggle('active');
+    }
+  }
 });
-
-// accessibility: allow toggle from UI
-instructionsToggle.dispatchEvent(new Event('change'));
 
 // --------------- Initialization ---------------
 (function init(){

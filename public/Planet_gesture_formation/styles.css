@@ -128,7 +128,8 @@ canvas#scene {
   cursor: default;
 }
 
-.nav-item:hover .dropdown {
+.nav-item:hover .dropdown,
+.nav-item.active .dropdown {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
