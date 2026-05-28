@@ -110,7 +110,7 @@ The website features:
 | 39 | Notes App | HTML, CSS, JS | 📝 App | [View Demo](https://100-days-100-web-project.vercel.app/public/notes-app) |
 | 40 | Analog Clock | HTML, CSS, JS | ⏰ Widget | [View Demo](https://100-days-100-web-project.vercel.app/public/AnalogClock) |
 | 41 | Scroll Dark Game | HTML, CSS, JS | 🎮 Game | [View Demo](https://100-days-100-web-project.vercel.app/public/Scroll%20Game%20Dark%20Run) |
-| 42 | Amazon Clone | HTML, CSS, JS | 🛒 E-commerce | [View Demo](https://100-days-100-web-project.vercel.app/public/Amazon_Clone) |
+| 42 | Amazon Clone | HTML, CSS, JS | 🛒 E-commerce | [View Demo](https://100-days-100-web-project.vercel.app/public/Amazon_Clone/index.html) |
 | 43 | Password Generator | HTML, CSS, JS | 🔐 Utility | [View Demo](https://100-days-100-web-project.vercel.app/public/Password_Generator) |
 | 44 | BMI Calculator | HTML, CSS, JS | 🧮 Calculator | [View Demo](https://100-days-100-web-project.vercel.app/public/BMI_Calculator) |
 | 45 | BlackJack Game | HTML, CSS, JS | 🎰 Game | [View Demo](https://100-days-100-web-project.vercel.app/public/BlackJack/blackJ) |
