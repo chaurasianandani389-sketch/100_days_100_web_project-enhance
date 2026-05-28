@@ -58,7 +58,7 @@ const PROJECT_DATA = [
     ['Day 40', 'Analog Clock', './public/AnalogClock/index.html', 'javascript css ui', 'beginner'],
     ['Day 41', 'Scroll Dark Game', './public/Scroll%20Game%20Dark%20Run/index.html', 'game canvas', 'intermediate'],
     // ✅ Day 42 Path explicitly updated to AmazonClone format for proper live serving compatibility
-    ['Day 42', 'Amazon App', './public/AmazonClone/index.html', 'javascript clone clone', 'intermediate'],
+    ['Day 42', 'Amazon App', './public/Amazon_Clone/index.html', 'javascript clone clone', 'intermediate'],
     ['Day 43', 'Password Generator', './public/Password_Generator/index.html', 'javascript tool', 'beginner'],
     ['Day 44', 'BMI Calculator', './public/BMI_Calculator/index.html', 'javascript tool', 'beginner'],
     ['Day 45', 'Black Jack', './public/BlackJack/blackJ.html', 'game javascript', 'intermediate'],
