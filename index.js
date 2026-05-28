@@ -134,20 +134,26 @@ const PROJECT_DATA = [
     ['Day 116', 'AI Image Classifier', './public/AI Image Classifier/index.html', 'api javascript', 'intermediate']
 ];
 
-// Alias for consistency
 const PROJECTS = PROJECT_DATA;
 console.log('PROJECTS defined:', PROJECTS.length, 'items');
 
-// Category labels mapping
 const CATEGORY_LABEL = {
     'beginner': 'Beginner',
     'intermediate': 'Intermediate'
 };
-console.log('CATEGORY_LABEL defined:', CATEGORY_LABEL);
 
-// ============================================
-// 2. GITHUB REPO STATS
-// ============================================
+/* ============================================================
+   GLOBAL UTILITIES
+   ============================================================ */
+function highlightMatch(text, query) {
+    if (!query) return text;
+    const regex = new RegExp(`(${query})`, 'gi');
+    return text.replace(regex, `<span class="highlight">$1</span>`);
+}
+
+/* ============================================================
+   GITHUB REPO STATS
+   ============================================================ */
 async function fetchRepoStats() {
     try {
         const [repoRes, prRes] = await Promise.all([
@@ -171,20 +177,23 @@ async function fetchRepoStats() {
     }
 }
 
-// NOTE (difficulty): Generating content client-side must sanitize URLs and
-// avoid heavy sync work; large project lists may block the main thread.
-
+/* ============================================================
+   README GENERATION (Fixed Type Error bug)
+   ============================================================ */
 function generateReadme() {
     try {
-        const lines = [];
-        lines.push('# 100 Days · 100 Web Projects');
-        lines.push('A curated archive of frontend experiments — browse, fork, contribute.');
-        lines.push('');
-        lines.push('## Projects');
+        const lines = [
+            '# 100 Days · 100 Web Projects',
+            'A curated archive of frontend experiments — browse, fork, contribute.',
+            '',
+            '## Projects'
+        ];
+
         PROJECTS.forEach(([day, name, url, tags, cat]) => {
             const safeUrl = url || '';
-            const tagList = (tags || []).join(', ');
-            lines.push(`- **${day} — ${name}** — ${safeUrl} — _${cat}_ — ${tagList}`);
+            // Fix: tags is a space-separated string in data schema, not an array
+            const formattedTags = typeof tags === 'string' ? tags.split(/\s+/).join(', ') : '';
+            lines.push(`- **${day} — ${name}** — ${safeUrl} — _${cat}_ — ${formattedTags}`);
         });
 
         const blob = new Blob([lines.join('\n')], { type: 'text/markdown' });
@@ -202,7 +211,7 @@ function generateReadme() {
 }
 
 /* ============================================================
-   RENDER PROJECT GRID
+   RENDER PROJECT GRID (Optimized Element Lookups)
    ============================================================ */
 let activeFilter = 'all';
 let searchQuery  = '';
@@ -210,10 +219,10 @@ let searchQuery  = '';
 function renderGrid() {
     const grid = document.getElementById('projectGrid');
     const noResults = document.getElementById('noResults');
+    const resultCountEl = document.getElementById('resultCount');
     if (!grid) return;
 
     const filtered = PROJECTS.filter(([day, name, , , cat]) => {
-        const resultCountEl = document.getElementById('resultCount');
         const matchesFilter = activeFilter === 'all' || cat === activeFilter;
         const q = searchQuery.toLowerCase();
         const matchesSearch = !q || name.toLowerCase().includes(q) || day.toLowerCase().includes(q);
@@ -224,31 +233,25 @@ function renderGrid() {
 
     if (filtered.length === 0) {
         grid.style.display = 'none';
-        noResults.style.display = 'block';
-          if (resultCountEl) resultCountEl.textContent = "0 results found";
+        if (noResults) noResults.style.display = 'block';
+        if (resultCountEl) resultCountEl.textContent = "0 results found";
         return;
     }
 
     grid.style.display = 'grid';
-    noResults.style.display = 'none';
+    if (noResults) noResults.style.display = 'none';
 
-    if (resultCountEl && searchQuery) {
-    resultCountEl.textContent = `${filtered.length} result(s) found`;
-} else if (resultCountEl) {
-    resultCountEl.textContent = '';
-}
+    if (resultCountEl) {
+        resultCountEl.textContent = searchQuery ? `${filtered.length} result(s) found` : '';
+    }
 
+    // Modern performance technique: Assemble UI components efficiently
     filtered.forEach(([day, name, url, tags, cat]) => {
-        let displayName = name;
-
-if (searchQuery) {
-    const regex = new RegExp(`(${searchQuery})`, "gi");
-    displayName = name.replace(regex, `<span class="highlight">$1</span>`);
-}
+        const displayName = searchQuery ? highlightMatch(name, searchQuery) : name;
         const card = document.createElement('div');
         card.className = 'project-card';
 
-        const tagsArray = typeof tags === 'string' ? tags.split(/\s+/).filter(t => t) : tags;
+        const tagsArray = typeof tags === 'string' ? tags.split(/\s+/).filter(t => t) : [];
         const tagsHTML = tagsArray.map(t => `<span class="tag">${t}</span>`).join('');
 
         card.innerHTML = `
@@ -264,7 +267,6 @@ if (searchQuery) {
                 </a>
             </div>
         `;
-
         grid.appendChild(card);
     });
 }
@@ -283,18 +285,10 @@ function initFilterChips() {
         });
     });
 }
-function highlightMatch(text, query) {
-    const regex = new RegExp(`(${query})`, 'gi');
-    return text.replace(regex, `<span class="highlight">$1</span>`);
-}
+
 /* ============================================================
    LIVE SEARCH
    ============================================================ */
-function highlightMatch(text, query) {
-    const regex = new RegExp(`(${query})`, 'gi');
-    return text.replace(regex, `<span class="highlight">$1</span>`);
-}
-
 function initSearch() {
     const input = document.getElementById('searchInput');
     const box = document.getElementById('suggestionsBox');
@@ -309,10 +303,7 @@ function initSearch() {
         searchQuery = query;
         renderGrid();
 
-        // ✅ Show/hide ❌ button
         clearBtn.style.display = query ? 'block' : 'none';
-
-        // Reset suggestions
         box.innerHTML = '';
         activeIndex = -1;
 
@@ -321,8 +312,7 @@ function initSearch() {
             return;
         }
 
-        // Filter matching projects
-        const matches = PROJECTS.filter(([day, name]) =>
+        const matches = PROJECTS.filter(([, name]) =>
             name.toLowerCase().includes(query)
         ).slice(0, 5);
 
@@ -332,19 +322,14 @@ function initSearch() {
             return;
         }
 
-        // Create suggestion items
         matches.forEach(([day, name]) => {
             const item = document.createElement('div');
             item.className = 'suggestion-item';
-
             item.innerHTML = `
                 ${highlightMatch(name, query)}
-                <span style="opacity:0.5; font-size:0.75rem; margin-left:6px;">
-                    (${day})
-                </span>
+                <span style="opacity:0.5; font-size:0.75rem; margin-left:6px;">(${day})</span>
             `;
 
-            // Click suggestion
             item.addEventListener('click', () => {
                 input.value = name;
                 searchQuery = name.toLowerCase();
@@ -359,18 +344,17 @@ function initSearch() {
         box.style.display = 'block';
     });
 
-    // ⌨️ Keyboard navigation
     input.addEventListener('keydown', (e) => {
         const items = box.querySelectorAll('.suggestion-item');
         if (!items.length) return;
 
         if (e.key === 'ArrowDown') {
-            activeIndex++;
-            if (activeIndex >= items.length) activeIndex = 0;
+            activeIndex = (activeIndex + 1) % items.length;
+            e.preventDefault();
         } 
         else if (e.key === 'ArrowUp') {
-            activeIndex--;
-            if (activeIndex < 0) activeIndex = items.length - 1;
+            activeIndex = (activeIndex - 1 + items.length) % items.length;
+            e.preventDefault();
         } 
         else if (e.key === 'Enter') {
             if (activeIndex >= 0) {
@@ -379,13 +363,11 @@ function initSearch() {
             }
         }
 
-        items.forEach(item => item.classList.remove('active'));
-        if (activeIndex >= 0) {
-            items[activeIndex].classList.add('active');
-        }
+        items.forEach((item, idx) => {
+            item.classList.toggle('active', idx === activeIndex);
+        });
     });
 
-    // ❌ Clear button
     clearBtn.addEventListener('click', () => {
         input.value = '';
         searchQuery = '';
@@ -394,14 +376,12 @@ function initSearch() {
         renderGrid();
     });
 
-    // Click outside → close dropdown
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.search-bar')) {
             box.style.display = 'none';
         }
     });
 }
-   
 
 function syncProjectCounts() {
     const total = PROJECTS.length.toLocaleString();
@@ -421,7 +401,7 @@ function syncProjectCounts() {
 }
 
 /* ============================================================
-   NAVBAR — dynamic based on login state
+   NAVBAR & AUTH STATES
    ============================================================ */
 function updateNavbar() {
     const container = document.getElementById('navButtons');
@@ -430,7 +410,6 @@ function updateNavbar() {
     const username = window.username || null;
     const isRoot   = !window.location.pathname.includes('/contributors/');
     const base     = isRoot ? '' : '../';
-    const isDark   = !document.body.classList.contains('light-mode');
 
     if (username) {
         container.innerHTML = `
@@ -446,8 +425,6 @@ function updateNavbar() {
             window.username = null;
             updateNavbar();
         });
-        const gen = document.getElementById('generateReadmeBtn');
-        if (gen) gen.addEventListener('click', generateReadme);
     } else {
         container.innerHTML = `
             <a class="btn btn-ghost btn-sm" href="${base}contributors/contributor.html">Contributors</a>
@@ -457,9 +434,10 @@ function updateNavbar() {
             <button class="btn btn-ghost btn-sm" id="generateReadmeBtn">Generate README</button>
             <a class="btn btn-primary btn-sm" href="${base}public/Login.html">Sign in</a>
         `;
-        const gen2 = document.getElementById('generateReadmeBtn');
-        if (gen2) gen2.addEventListener('click', generateReadme);
     }
+    
+    const genBtn = document.getElementById('generateReadmeBtn');
+    if (genBtn) genBtn.addEventListener('click', generateReadme);
 }
 
 /* ============================================================
@@ -474,13 +452,13 @@ function initTheme() {
 
     if (saved === 'light') {
         document.body.classList.add('light-mode');
-        icon.className = 'fas fa-sun';
+        if (icon) icon.className = 'fas fa-sun';
     }
 
     btn.addEventListener('click', () => {
         document.body.classList.toggle('light-mode');
         const isLight = document.body.classList.contains('light-mode');
-        icon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
+        if (icon) icon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
         localStorage.setItem('theme', isLight ? 'light' : 'dark');
     });
 }
@@ -502,11 +480,9 @@ function initScrollBtn() {
 }
 
 /* ============================================================
-   INIT
+   INITIALIZATION
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOMContentLoaded fired');
-    console.log('PROJECTS:', typeof PROJECTS, PROJECTS ? PROJECTS.length : 'undefined');
     initTheme();
     updateNavbar();
     initFilterChips();
