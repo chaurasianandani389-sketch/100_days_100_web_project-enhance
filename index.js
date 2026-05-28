@@ -26,7 +26,8 @@ const PROJECT_DATA = [
     ['Day 8', 'Parallel-X Website', './public/Parallel-x%20website/parallal.html', 'css ui', 'intermediate'],
     ['Day 9', 'Captcha Generator', './public/captcha/captcha.html', 'javascript tool', 'intermediate'],
     ['Day 10', 'QR Code Generator', './public/qr%20generator/qr.html', 'api javascript tool', 'intermediate'],
-    ['Day 11', 'Serve Website Using Express', './public/index.html', 'javascript api', 'intermediate'],
+    // ✅ Day 11 Path fixed to root directory reference to prevent navigation loop crash
+    ['Day 11', 'Serve Website Using Express', './index.html', 'javascript api', 'intermediate'],
     ['Day 12', 'Nodemailer Contact Form', './public/gmail_nodemailer/public/mail.html', 'api javascript tool', 'intermediate'],
     ['Day 13', 'Login Form Using MERN', 'https://github.com/dhairyagothi/100_days_100_web_project/tree/Main/public/loginusingmern', 'api javascript tool', 'intermediate'],
     ['Day 14', 'File Uploader', 'https://github.com/dhairyagothi/100_days_100_web_project/tree/Main/public/file_uploader', 'javascript tool', 'intermediate'],
@@ -57,7 +58,7 @@ const PROJECT_DATA = [
     ['Day 39', 'Notes App', './public/notes-app/index.html', 'todo javascript tool', 'beginner'],
     ['Day 40', 'Analog Clock', './public/AnalogClock/index.html', 'javascript css ui', 'beginner'],
     ['Day 41', 'Scroll Dark Game', './public/Scroll%20Game%20Dark%20Run/index.html', 'game canvas', 'intermediate'],
-    // ✅ Amazon Clone Route standardized to single implementation folder
+    // ✅ Day 42 Path corrected to standard folder format to fix Red Navigation Screen on live deployment
     ['Day 42', 'Amazon App', './public/Amazon_Clone/index.html', 'javascript clone clone', 'intermediate'],
     ['Day 43', 'Password Generator', './public/Password_Generator/index.html', 'javascript tool', 'beginner'],
     ['Day 44', 'BMI Calculator', './public/BMI_Calculator/index.html', 'javascript tool', 'beginner'],
@@ -208,7 +209,6 @@ function renderGrid() {
     const filtered = PROJECTS.filter(([day, name, , tags, cat]) => {
         const resultCountEl = document.getElementById('resultCount');
         
-        // Chip layout category string & tags integration mapping
         const cleanTags = (tags || '').toLowerCase();
         const matchesFilter = activeFilter === 'all' || 
                               cat === activeFilter || 
@@ -288,7 +288,6 @@ function initFilterChips() {
 /* ============================================================
    LIVE SEARCH
    ============================================================ */
-// ✅ Fixed duplicate highlightMatch declaration issue
 function highlightMatch(text, query) {
     if (!query) return text;
     const regex = new RegExp(`(${query})`, 'gi');
