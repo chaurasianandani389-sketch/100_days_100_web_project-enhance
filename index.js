@@ -18,7 +18,7 @@ let activeFilter = 'all';
 let searchQuery = '';
 
 /* ============================================================
-   ✅ DEBOUNCE HELPER FUNCTION (Top-Level Par Sabse Upar Set)
+   ✅ DEBOUNCE HELPER FUNCTION (Top-Level Par Set)
    ============================================================ */
 function debounce(func, wait) {
   let timeout;
@@ -89,28 +89,28 @@ const PROJECT_DATA = [
     ['Day 54', 'Budget Tracker', './public/Budget%20Tracker/index.html', 'todo javascript tool', 'intermediate'],
     ['Day 55', 'Cricket Game', './public/cricket/index.html', 'game javascript', 'intermediate'],
     ['Day 56', 'Pastebin using svelte', 'https://github.com/dhairyagothi/100_days_100_web_project/tree/Main/public/pastebin', 'javascript tool', 'intermediate'],
-    ['Day 57', 'Glowing Social Media Icons', './public/Social%20Media%20Glowing/index.html', 'css ui animation', 'beginner'],
-    ['Day 58', 'Music App', './public/Music%20App/index.html', 'api javascript tool', 'intermediate'],
-    ['Day 59', 'Blog Page', './public/Blog%20Page/index.html', 'css ui', 'beginner'],
+    ['Day 57', 'Glowing Social Media Icons', './public/Social Media Glowing/index.html', 'css ui animation', 'beginner'],
+    ['Day 58', 'Music App', './public/Music App/index.html', 'api javascript tool', 'intermediate'],
+    ['Day 59', 'Blog Page', './public/Blog Page/index.html', 'css ui', 'beginner'],
     ['Day 60', 'Marketing template website', './public/marketing_website/index.html', 'css ui', 'beginner'],
-    ['Day 61', 'Hologram Button', './public/Holo%20Button/index.html', 'css ui animation', 'beginner'],
-    ['Day 62', 'Solar System Explorer', './public/Solar%20System%20Explorer%20in%20CSS%20only%20haml/template.html', 'css ui animation', 'intermediate'],
+    ['Day 61', 'Hologram Button', './public/Holo Button/index.html', 'css ui animation', 'beginner'],
+    ['Day 62', 'Solar System Explorer', './public/Solar System Explorer in CSS only haml/template.html', 'css ui animation', 'intermediate'],
     ['Day 63', 'Image to Text App', './public/Image-To-Text-App/index.html', 'api javascript tool', 'intermediate'],
     ['Day 64', 'Zomato-clone', './public/zomato-clone/zomato.html', 'css clone', 'beginner'],
-    ['Day 65', 'The Cube', './public/The%20Cube/index.html', 'canvas css ui animation', 'intermediate'],
+    ['Day 65', 'The Cube', './public/The Cube/index.html', 'canvas css ui animation', 'intermediate'],
     ['Day 66', 'Flask Authentication App', 'https://github.com/dhairyagothi/100_days_100_web_project/tree/Main/public/flask_auth_app', 'api javascript tool', 'intermediate'],
     ['Day 67', 'Blog-Website', './public/blog/main.html', 'css ui', 'beginner'],
-    ['Day 68', '3d Rotating Card', './public/3d%20cards/index.html', 'css ui animation', 'intermediate'],
-    ['Day 69', 'Spotify Clone Project', './public/spotify-clone%20-project/index.html', 'api javascript clone', 'intermediate'],
+    ['Day 68', '3d Rotating Card', './public/3d cards/index.html', 'css ui animation', 'intermediate'],
+    ['Day 69', 'Spotify Clone Project', './public/spotify-clone -project/index.html', 'api javascript clone', 'intermediate'],
     ['Day 70', 'Insect-Catch_Game', './public/Insect-Catch-Game/index.html', 'game canvas', 'intermediate'],
     ['Day 71', 'Quotely Laughs', './public/Quotely-Laughs/index.html', 'api javascript tool', 'beginner'],
-    ['Day 72', 'Contact Book', 'https://github.com/dhairyagothi/100_days_100_web_project/tree/Main/public/Contact%20Book', 'todo javascript tool', 'intermediate'],
+    ['Day 72', 'Contact Book', 'https://github.com/dhairyagothi/100_days_100_web_project/tree/Main/public/Contact Book', 'todo javascript tool', 'intermediate'],
     ['Day 73', 'Candy_Crush_Game', './public/Candy_Crush_Game/index.html', 'game javascript', 'intermediate'],
     ['Day 74', 'Stock Profit Calculator', './public/Stock-Profit-Calculator/index.html', 'javascript tool', 'beginner'],
     ['Day 75', 'code-space-game project', './public/code-jump-space-game/index.html', 'game canvas', 'intermediate'],
-    ['Day 76', 'Animated Searchbar', './public/Animated%20Searchbar/index.html', 'css javascript ui animation', 'beginner'],
+    ['Day 76', 'Animated Searchbar', './public/Animated Searchbar/index.html', 'css javascript ui animation', 'beginner'],
     ['Day 77', 'Rock-Paper-Scissor-game project', './public/Stone-Paper-Scissor/index.html', 'game javascript', 'beginner'],
-    ['Day 78', 'NPM Package Search', './public/NPM%20Package%20Search/index.html', 'api javascript tool', 'intermediate'],
+    ['Day 78', 'NPM Package Search', './public/NPM Package Search/index.html', 'api javascript tool', 'intermediate'],
     ['Day 79', 'Linkedin Homepage Clone', './public/Linkedin-Clone/index.html', 'css clone', 'intermediate'],
     ['Day 80', 'Resume Studio', './public/ResumeStudio/index.html', 'javascript tool', 'intermediate'],
     ['Day 81', 'Simon Says Game', './public/Simon_Says_Game/index.html', 'game javascript', 'intermediate'],
@@ -250,147 +250,62 @@ function renderPagination(totalItems, totalPages) {
   const controlsDiv = document.createElement('div');
   controlsDiv.className = 'pagination-controls';
 
-<<<<<<< HEAD
   for (let i = 1; i <= totalPages; i++) {
-=======
-  const firstBtn = document.createElement('button');
-  firstBtn.className = 'first-btn';
-  firstBtn.innerHTML = '⏮ First';
-  firstBtn.disabled = currentPage === 1;
-
-  firstBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (currentPage !== 1) {
-      currentPage = 1;
-      renderGrid();
-      setTimeout(() => scrollToProjectSection(), 50);
-    }
-  });
-
-  controlsDiv.appendChild(firstBtn);
-
-  const prevBtn = document.createElement('button');
-  prevBtn.className = 'prev-btn';
-  prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
-  prevBtn.disabled = currentPage === 1;
-  prevBtn.setAttribute('aria-label', 'Previous Page');
-  prevBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (currentPage > 1) {
-      currentPage--;
-      renderGrid();
-      // Delay scrolling by 50ms to allow DOM layout to recalculate and stabilize after cards redraw
-      setTimeout(() => {
-        scrollToProjectSection();
-      }, 50);
-    }
-  });
-  controlsDiv.appendChild(prevBtn);
-
-  // Initialize bounds for numeric pagination window (displays maximum of 4 page buttons)
-  let startPage = 1;
-  let endPage = totalPages;
-  const maxVisible = 4;
-
-  // Sliding window pagination logic centering the active page
-  if (totalPages > maxVisible) {
-    if (currentPage <= 2) {
-      startPage = 1;
-      endPage = 4;
-    } else if (currentPage >= totalPages - 1) {
-      startPage = totalPages - 3;
-      endPage = totalPages;
-    } else {
-      startPage = currentPage - 1;
-      endPage = currentPage + 2;
-    }
-  }
-
-  for (let i = startPage; i <= endPage; i++) {
->>>>>>> upstream/Main
     const pageBtn = document.createElement('button');
     pageBtn.className = `page-num ${currentPage === i ? 'active' : ''}`;
     pageBtn.textContent = i;
     pageBtn.addEventListener('click', () => { currentPage = i; renderGrid(); });
     controlsDiv.appendChild(pageBtn);
   }
-<<<<<<< HEAD
-=======
-
-  const nextBtn = document.createElement('button');
-  nextBtn.className = 'next-btn';
-  nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
-  nextBtn.disabled = currentPage === totalPages;
-  nextBtn.setAttribute('aria-label', 'Next Page');
-  nextBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (currentPage < totalPages) {
-      currentPage++;
-      renderGrid();
-      // Delay scrolling by 50ms to allow DOM layout to recalculate and stabilize after cards redraw
-      setTimeout(() => {
-        scrollToProjectSection();
-      }, 50);
-    }
-  });
-  controlsDiv.appendChild(nextBtn);
-  const lastBtn = document.createElement('button');
-  lastBtn.className = 'last-btn';
-  lastBtn.innerHTML =  'Last ⏭';
-  lastBtn.disabled = currentPage === totalPages;
-
-  lastBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (currentPage !== totalPages) {
-      currentPage = totalPages;
-      renderGrid();
-      setTimeout(() => scrollToProjectSection(), 50);
-    }
-  });
-
-  controlsDiv.appendChild(lastBtn);
-
->>>>>>> upstream/Main
   container.appendChild(controlsDiv);
   grid.appendChild(container);
 }
 
 /* ============================================================
-   LIVE SEARCH & EVENT LISTENERS (Optimized Mobile Interface)
+   LIVE SEARCH & EVENT LISTENERS (Universal Mobile Patch)
    ============================================================ */
 function initSearch() {
-  const input = document.getElementById('searchInput');
-  const box = document.getElementById('suggestionsBox');
+  const input = document.getElementById('searchInput') || 
+                document.getElementById('search') || 
+                document.querySelector('input[type="text"]') ||
+                document.querySelector('.search-input');
+                
+  const box = document.getElementById('suggestionsBox') || document.querySelector('.suggestions-box');
+  
   if (!input) return;
 
-  // Key-input handler with debounce protect
-  input.addEventListener('input', debounce(() => {
-    searchQuery = input.value.trim();
+  // Single event listener target with clean node replacement
+  const newInput = input.cloneNode(true);
+  input.parentNode.replaceChild(newInput, input);
+
+  newInput.addEventListener('input', debounce(() => {
+    searchQuery = newInput.value.trim();
     currentPage = 1;
     renderGrid();
-  }, 250));
+  }, 200));
 
-  // Hide mobile keyboard/suggestions box when touching outside layout
   document.addEventListener('touchstart', (e) => {
-    if (box && !e.target.closest('.search-bar')) box.style.display = 'none';
+    if (box && !e.target.closest('.search-bar') && !e.target.closest('.search-input-wrapper') && !e.target.closest('input')) {
+      box.style.display = 'none';
+    }
   });
 
-  // Soft keyboard crash prevention on Android Enter key
-  input.addEventListener('keypress', (e) => {
+  newInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
-      input.blur();
+      newInput.blur(); 
       if (box) box.style.display = 'none';
     }
   });
 }
 
 function initFilterChips() {
-  const chips = document.querySelectorAll('.chip[data-filter]');
+  const chips = document.querySelectorAll('.chip[data-filter]') || document.querySelectorAll('.filter-chip');
   chips.forEach(chip => {
-    chip.addEventListener('click', () => {
+    chip.addEventListener('click', (e) => {
+      e.preventDefault();
       chips.forEach(c => c.classList.remove('active'));
       chip.classList.add('active');
-      activeFilter = chip.dataset.filter;
+      activeFilter = chip.dataset.filter || chip.getAttribute('data-filter');
       currentPage = 1;
       renderGrid();
     });
