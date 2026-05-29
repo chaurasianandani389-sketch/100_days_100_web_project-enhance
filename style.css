@@ -233,6 +233,11 @@ body > header {
   isolation: isolate;
 }
 
+#navbar-container {
+  position: relative;
+  z-index: 9999;
+}
+
 body.light-mode .navbar {
   background: rgba(244, 246, 249, 0.92);
 }
